@@ -1,0 +1,8 @@
+prefix=/home/am/ws_robot/devel
+
+Name: human_robot_interaction
+Description: Description of human_robot_interaction
+Version: 0.0.0
+Cflags: -I/home/am/ws_robot/src/human_robot_interaction/include
+Libs: -L${prefix}/lib -lhuman_robot_interaction
+Requires: 

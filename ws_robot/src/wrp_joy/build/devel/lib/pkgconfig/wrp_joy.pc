@@ -1,0 +1,8 @@
+prefix=/home/yanxin/ws_robot/src/wrp_joy/build/devel
+
+Name: wrp_joy
+Description: Description of wrp_joy
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

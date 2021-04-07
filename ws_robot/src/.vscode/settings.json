@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "*.ipp": "cpp",
+        "bitset": "cpp",
+        "random": "cpp",
+        "future": "cpp",
+        "memory": "cpp",
+        "optional": "cpp",
+        "functional": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "regex": "cpp",
+        "*.tcc": "cpp",
+        "vector": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp"
+    }
+}
