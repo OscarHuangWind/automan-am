@@ -12,7 +12,7 @@ from control_authority import Authority
 from geometry_msgs.msg import Twist
 
 
-class human_robot_interaction():
+class HRS():
     def __init__(self):
         self.weight_adas_cmd_lon_ = float(0.0)
         self.weight_adas_cmd_rot_ = float(0.0)
