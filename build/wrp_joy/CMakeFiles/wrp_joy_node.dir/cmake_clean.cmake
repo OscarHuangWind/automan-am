@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node"
-  "/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node.pdb"
+  "/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node"
+  "/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node.pdb"
   "CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o"
 )
 

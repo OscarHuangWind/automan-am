@@ -1,8 +1,8 @@
-# Install script for directory: /home/oscar/ws_oscar/hunter/src/human_robot_interaction
+# Install script for directory: /home/oscar/ws_oscar/automan-am/src/human_robot_interaction
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/oscar/ws_oscar/hunter/install")
+  set(CMAKE_INSTALL_PREFIX "/home/oscar/ws_oscar/automan-am/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/oscar/ws_oscar/hunter/build/human_robot_interaction/catkin_generated/installspace/human_robot_interaction.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/oscar/ws_oscar/automan-am/build/human_robot_interaction/catkin_generated/installspace/human_robot_interaction.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/human_robot_interaction/cmake" TYPE FILE FILES
-    "/home/oscar/ws_oscar/hunter/build/human_robot_interaction/catkin_generated/installspace/human_robot_interactionConfig.cmake"
-    "/home/oscar/ws_oscar/hunter/build/human_robot_interaction/catkin_generated/installspace/human_robot_interactionConfig-version.cmake"
+    "/home/oscar/ws_oscar/automan-am/build/human_robot_interaction/catkin_generated/installspace/human_robot_interactionConfig.cmake"
+    "/home/oscar/ws_oscar/automan-am/build/human_robot_interaction/catkin_generated/installspace/human_robot_interactionConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/human_robot_interaction" TYPE FILE FILES "/home/oscar/ws_oscar/hunter/src/human_robot_interaction/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/human_robot_interaction" TYPE FILE FILES "/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/package.xml")
 endif()
 

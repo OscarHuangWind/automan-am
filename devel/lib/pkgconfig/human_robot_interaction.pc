@@ -1,8 +1,8 @@
-prefix=/home/oscar/ws_oscar/hunter/devel
+prefix=/home/oscar/ws_oscar/automan-am/devel
 
 Name: human_robot_interaction
 Description: Description of human_robot_interaction
 Version: 0.0.0
-Cflags: -I/home/oscar/ws_oscar/hunter/src/human_robot_interaction/include
+Cflags: -I/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/include
 Libs: -L${prefix}/lib -lhuman_robot_interaction
 Requires: 

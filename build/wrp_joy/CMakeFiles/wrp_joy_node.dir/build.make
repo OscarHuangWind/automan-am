@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/oscar/ws_oscar/hunter/src
+CMAKE_SOURCE_DIR = /home/oscar/ws_oscar/automan-am/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/oscar/ws_oscar/hunter/build
+CMAKE_BINARY_DIR = /home/oscar/ws_oscar/automan-am/build
 
 # Include any dependencies generated for this target.
 include wrp_joy/CMakeFiles/wrp_joy_node.dir/depend.make
@@ -58,17 +58,17 @@ include wrp_joy/CMakeFiles/wrp_joy_node.dir/progress.make
 include wrp_joy/CMakeFiles/wrp_joy_node.dir/flags.make
 
 wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o: wrp_joy/CMakeFiles/wrp_joy_node.dir/flags.make
-wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o: /home/oscar/ws_oscar/hunter/src/wrp_joy/src/wrp_joy_node.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oscar/ws_oscar/hunter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o"
-	cd /home/oscar/ws_oscar/hunter/build/wrp_joy && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o -c /home/oscar/ws_oscar/hunter/src/wrp_joy/src/wrp_joy_node.cpp
+wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o: /home/oscar/ws_oscar/automan-am/src/wrp_joy/src/wrp_joy_node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oscar/ws_oscar/automan-am/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o"
+	cd /home/oscar/ws_oscar/automan-am/build/wrp_joy && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o -c /home/oscar/ws_oscar/automan-am/src/wrp_joy/src/wrp_joy_node.cpp
 
 wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.i"
-	cd /home/oscar/ws_oscar/hunter/build/wrp_joy && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/oscar/ws_oscar/hunter/src/wrp_joy/src/wrp_joy_node.cpp > CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.i
+	cd /home/oscar/ws_oscar/automan-am/build/wrp_joy && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/oscar/ws_oscar/automan-am/src/wrp_joy/src/wrp_joy_node.cpp > CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.i
 
 wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.s"
-	cd /home/oscar/ws_oscar/hunter/build/wrp_joy && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/oscar/ws_oscar/hunter/src/wrp_joy/src/wrp_joy_node.cpp -o CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.s
+	cd /home/oscar/ws_oscar/automan-am/build/wrp_joy && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/oscar/ws_oscar/automan-am/src/wrp_joy/src/wrp_joy_node.cpp -o CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.s
 
 # Object files for target wrp_joy_node
 wrp_joy_node_OBJECTS = \
@@ -77,41 +77,41 @@ wrp_joy_node_OBJECTS = \
 # External object files for target wrp_joy_node
 wrp_joy_node_EXTERNAL_OBJECTS =
 
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: wrp_joy/CMakeFiles/wrp_joy_node.dir/build.make
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /home/oscar/ws_oscar/hunter/devel/lib/libhuman_robot_interaction.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libmessage_filters.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libroscpp.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libpthread.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libroscpp_serialization.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libxmlrpcpp.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/librosconsole.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/librosconsole_log4cxx.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/librosconsole_backend_interface.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/librostime.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libcpp_common.so
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
-/home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node: wrp_joy/CMakeFiles/wrp_joy_node.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/oscar/ws_oscar/hunter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node"
-	cd /home/oscar/ws_oscar/hunter/build/wrp_joy && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/wrp_joy_node.dir/link.txt --verbose=$(VERBOSE)
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: wrp_joy/CMakeFiles/wrp_joy_node.dir/src/wrp_joy_node.cpp.o
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: wrp_joy/CMakeFiles/wrp_joy_node.dir/build.make
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /home/oscar/ws_oscar/automan-am/devel/lib/libhuman_robot_interaction.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libmessage_filters.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libroscpp.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libpthread.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libroscpp_serialization.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libxmlrpcpp.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/librosconsole.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/librosconsole_log4cxx.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/librosconsole_backend_interface.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/librostime.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /opt/ros/noetic/lib/libcpp_common.so
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
+/home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node: wrp_joy/CMakeFiles/wrp_joy_node.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/oscar/ws_oscar/automan-am/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node"
+	cd /home/oscar/ws_oscar/automan-am/build/wrp_joy && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/wrp_joy_node.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-wrp_joy/CMakeFiles/wrp_joy_node.dir/build: /home/oscar/ws_oscar/hunter/devel/lib/wrp_joy/wrp_joy_node
+wrp_joy/CMakeFiles/wrp_joy_node.dir/build: /home/oscar/ws_oscar/automan-am/devel/lib/wrp_joy/wrp_joy_node
 
 .PHONY : wrp_joy/CMakeFiles/wrp_joy_node.dir/build
 
 wrp_joy/CMakeFiles/wrp_joy_node.dir/clean:
-	cd /home/oscar/ws_oscar/hunter/build/wrp_joy && $(CMAKE_COMMAND) -P CMakeFiles/wrp_joy_node.dir/cmake_clean.cmake
+	cd /home/oscar/ws_oscar/automan-am/build/wrp_joy && $(CMAKE_COMMAND) -P CMakeFiles/wrp_joy_node.dir/cmake_clean.cmake
 .PHONY : wrp_joy/CMakeFiles/wrp_joy_node.dir/clean
 
 wrp_joy/CMakeFiles/wrp_joy_node.dir/depend:
-	cd /home/oscar/ws_oscar/hunter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/oscar/ws_oscar/hunter/src /home/oscar/ws_oscar/hunter/src/wrp_joy /home/oscar/ws_oscar/hunter/build /home/oscar/ws_oscar/hunter/build/wrp_joy /home/oscar/ws_oscar/hunter/build/wrp_joy/CMakeFiles/wrp_joy_node.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/oscar/ws_oscar/automan-am/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/oscar/ws_oscar/automan-am/src /home/oscar/ws_oscar/automan-am/src/wrp_joy /home/oscar/ws_oscar/automan-am/build /home/oscar/ws_oscar/automan-am/build/wrp_joy /home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/wrp_joy_node.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : wrp_joy/CMakeFiles/wrp_joy_node.dir/depend
 

@@ -1,6 +1,0 @@
-# CMake generated Testfile for 
-# Source directory: /home/oscar/ws_oscar/hunter/src/navigation/nav_core
-# Build directory: /home/oscar/ws_oscar/hunter/build/navigation/nav_core
-# 
-# This file includes the relevant testing commands required for 
-# testing this directory and lists subdirectories to be tested as well.

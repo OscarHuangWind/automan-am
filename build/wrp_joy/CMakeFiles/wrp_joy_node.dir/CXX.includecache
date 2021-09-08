@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/oscar/ws_oscar/hunter/src/human_robot_interaction/include/human_robot_interaction/human_robot_system.h
+/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/include/human_robot_interaction/human_robot_system.h
 iostream
 -
 ros/ros.h
@@ -14,7 +14,7 @@ ros/ros.h
 geometry_msgs/Twist.h
 -
 
-/home/oscar/ws_oscar/hunter/src/wrp_joy/include/wrp_joy/wrp_joy_node.h
+/home/oscar/ws_oscar/automan-am/src/wrp_joy/include/wrp_joy/wrp_joy_node.h
 iostream
 -
 ros/ros.h
@@ -34,9 +34,9 @@ message_filters/time_synchronizer.h
 message_filters/sync_policies/approximate_time.h
 -
 human_robot_interaction/human_robot_system.h
-/home/oscar/ws_oscar/hunter/src/wrp_joy/include/wrp_joy/human_robot_interaction/human_robot_system.h
+/home/oscar/ws_oscar/automan-am/src/wrp_joy/include/wrp_joy/human_robot_interaction/human_robot_system.h
 
-/home/oscar/ws_oscar/hunter/src/wrp_joy/src/wrp_joy_node.cpp
+/home/oscar/ws_oscar/automan-am/src/wrp_joy/src/wrp_joy_node.cpp
 iostream
 -
 mutex

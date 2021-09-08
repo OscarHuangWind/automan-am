@@ -1,4 +1,4 @@
-prefix=/home/oscar/ws_oscar/hunter/install
+prefix=/home/oscar/ws_oscar/automan-am/install
 
 Name: human_robot_interaction
 Description: Description of human_robot_interaction

@@ -1,4 +1,4 @@
-prefix=/home/oscar/ws_oscar/hunter/install
+prefix=/home/oscar/ws_oscar/automan-am/install
 
 Name: wrp_joy
 Description: Description of wrp_joy

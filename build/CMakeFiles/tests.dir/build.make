@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/oscar/ws_oscar/hunter/src
+CMAKE_SOURCE_DIR = /home/oscar/ws_oscar/automan-am/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/oscar/ws_oscar/hunter/build
+CMAKE_BINARY_DIR = /home/oscar/ws_oscar/automan-am/build
 
 # Utility rule file for tests.
 
@@ -67,6 +67,6 @@ CMakeFiles/tests.dir/clean:
 .PHONY : CMakeFiles/tests.dir/clean
 
 CMakeFiles/tests.dir/depend:
-	cd /home/oscar/ws_oscar/hunter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/oscar/ws_oscar/hunter/src /home/oscar/ws_oscar/hunter/src /home/oscar/ws_oscar/hunter/build /home/oscar/ws_oscar/hunter/build /home/oscar/ws_oscar/hunter/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/oscar/ws_oscar/automan-am/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/oscar/ws_oscar/automan-am/src /home/oscar/ws_oscar/automan-am/src /home/oscar/ws_oscar/automan-am/build /home/oscar/ws_oscar/automan-am/build /home/oscar/ws_oscar/automan-am/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tests.dir/depend
 

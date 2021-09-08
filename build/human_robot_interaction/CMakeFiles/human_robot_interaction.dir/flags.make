@@ -6,5 +6,5 @@ CXX_FLAGS = -fPIC
 
 CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"human_robot_interaction\" -Dhuman_robot_interaction_EXPORTS
 
-CXX_INCLUDES = -I/home/oscar/ws_oscar/hunter/src/human_robot_interaction/include/human_robot_interaction -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 
+CXX_INCLUDES = -I/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/include/human_robot_interaction -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 
 

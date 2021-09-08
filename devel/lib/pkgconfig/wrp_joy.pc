@@ -1,8 +1,8 @@
-prefix=/home/oscar/ws_oscar/hunter/devel
+prefix=/home/oscar/ws_oscar/automan-am/devel
 
 Name: wrp_joy
 Description: Description of wrp_joy
 Version: 0.0.0
-Cflags: -I/home/oscar/ws_oscar/hunter/src/wrp_joy/include
+Cflags: -I/home/oscar/ws_oscar/automan-am/src/wrp_joy/include
 Libs: -L${prefix}/lib -lwrp_joy
 Requires: joy roscpp human_robot_interaction

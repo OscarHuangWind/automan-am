@@ -8,7 +8,7 @@ Created on Fri Sep  3 15:41:17 2021
 
 import numpy as np
 import rospy
-from control_authority import Authority
+from .control_authority import Authority
 from geometry_msgs.msg import Twist
 
 
@@ -27,7 +27,7 @@ class HRS():
         if (cmd_vel_adas == None):
             self.weight_adas_cmd_lon_ = 0.0
             self.weight_adas_cmd_rot_ = 0.0
-            rospy.logwarn("Oscar::No command from ADAS.")
+            # rospy.logwarn("Oscar::No command from ADAS.")
 
         self.vel_adas_ = cmd_vel_adas
 
@@ -39,7 +39,7 @@ class HRS():
             self.weight_adas_cmd_rot_ = 0.0
             self.weight_driver_cmd_lon_ = 1.0 - self.weight_adas_cmd_lon_
             self.weight_driver_cmd_rot_ = 1.0 - self.weight_adas_cmd_rot_
-            rospy.logwarn("Oscar::Driver is doing good.")
+            # rospy.logwarn("Oscar::Driver is doing good.")
         else:
             if (self.vel_adas_.linear.z < 10):
                 #### Safe Stop ####
@@ -52,8 +52,8 @@ class HRS():
                 lat_risk_human = self.vel_adas_.angular.x
                 # lat_risk_auto = self.vel_adas_.angular.y
                 attention = 0.0
-                rospy.logwarn("Oscar::The x:%f, y:%f, risk_human:%f, attention:%f" %
-                              self.vel_adas_.angular.x, self.vel_adas_.angular.y, lat_risk_human, attention)
+                # rospy.logwarn("Oscar::The x:%f, y:%f, risk_human:%f, attention:%f" %
+                #               self.vel_adas_.angular.x, self.vel_adas_.angular.y, lat_risk_human, attention)
                 self.authority.SetInput(lat_risk_human, attention)
                 self.authority.ComputeAuthority()
                 self.weight_driver_cmd_rot_ = self.authority.GetAuthority()
@@ -71,7 +71,7 @@ class HRS():
             if (self.vel_adas_.linear.x < 0):
                 self.vel_adas_.linear.x = 0.0
 
-        # self.CalculateVelocity(self, vel_cmd_final)
+        self.CalculateVelocity(vel_cmd_final)
         return True
 
     def Reset(self):
@@ -82,14 +82,14 @@ class HRS():
 
     def CalculateVelocity(self, vel_cmd):
 
-        rospy.logwarn("Oscar::the weight of adas is: [%f, %f]" %
-                      self.weight_adas_cmd_lon_, self.weight_adas_cmd_rot_)
+        # rospy.logwarn("Oscar::the weight of adas is: [%f, %f]" %
+        #               self.weight_adas_cmd_lon_, self.weight_adas_cmd_rot_)
 
-        self.vel_cmd.linear.x = (self.weight_adas_cmd_lon_ * max(0.0, self.vel_adas_.linear.x)) +\
-                                (self.weight_driver_cmd_lon_ * self.vel_cmd.linear.x)
-        self.vel_cmd.angular.z = (self.weight_adas_cmd_rot_ * self.vel_adas_.angular.z) +\
+        vel_cmd.linear.x = (self.weight_adas_cmd_lon_ * max(0.0, self.vel_adas_.linear.x)) +\
+                                (self.weight_driver_cmd_lon_ * vel_cmd.linear.x)
+        vel_cmd.angular.z = (self.weight_adas_cmd_rot_ * self.vel_adas_.angular.z) +\
                                  (self.weight_driver_cmd_rot_ *
-                                  self.vel_cmd.angular.z)
+                                  vel_cmd.angular.z)
 
     def GetVelocityCmd(self):
         return self.vel_adas_

@@ -7,4 +7,9 @@
 # new environment variables
 
 # modified environment variables
-export PWD='/home/oscar/ws_oscar/hunter/build'
+export CMAKE_PREFIX_PATH="/home/oscar/ws_oscar/automan-am/devel:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/oscar/ws_oscar/automan-am/devel/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="/home/oscar/ws_oscar/automan-am/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PWD='/home/oscar/ws_oscar/automan-am/build'
+export ROSLISP_PACKAGE_DIRECTORIES='/home/oscar/ws_oscar/automan-am/devel/share/common-lisp'
+export ROS_PACKAGE_PATH="/home/oscar/ws_oscar/automan-am/src:$ROS_PACKAGE_PATH"

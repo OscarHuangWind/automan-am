@@ -67,14 +67,14 @@ set(human_robot_interaction_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(human_robot_interaction_SOURCE_PREFIX /home/oscar/ws_oscar/hunter/src/human_robot_interaction)
-  set(human_robot_interaction_DEVEL_PREFIX /home/oscar/ws_oscar/hunter/devel)
+  set(human_robot_interaction_SOURCE_PREFIX /home/oscar/ws_oscar/automan-am/src/human_robot_interaction)
+  set(human_robot_interaction_DEVEL_PREFIX /home/oscar/ws_oscar/automan-am/devel)
   set(human_robot_interaction_INSTALL_PREFIX "")
   set(human_robot_interaction_PREFIX ${human_robot_interaction_DEVEL_PREFIX})
 else()
   set(human_robot_interaction_SOURCE_PREFIX "")
   set(human_robot_interaction_DEVEL_PREFIX "")
-  set(human_robot_interaction_INSTALL_PREFIX /home/oscar/ws_oscar/hunter/install)
+  set(human_robot_interaction_INSTALL_PREFIX /home/oscar/ws_oscar/automan-am/install)
   set(human_robot_interaction_PREFIX ${human_robot_interaction_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/oscar/ws_oscar/hunter/install/lib;/home/oscar/ws_oscar/hunter/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/oscar/ws_oscar/automan-am/install/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(human_robot_interaction_LIBRARIES ${human_robot_interaction_LIBRARIES})
 
   _list_append_unique(human_robot_interaction_LIBRARY_DIRS ${${human_robot_interaction_dep}_LIBRARY_DIRS})
-  list(APPEND human_robot_interaction_EXPORTED_TARGETS ${${human_robot_interaction_dep}_EXPORTED_TARGETS})
+  _list_append_deduplicate(human_robot_interaction_EXPORTED_TARGETS ${${human_robot_interaction_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "")

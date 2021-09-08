@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/oscar/ws_oscar/hunter/src/human_robot_interaction/include/human_robot_interaction/human_robot_system.h
+/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/include/human_robot_interaction/human_robot_system.h
 iostream
 -
 ros/ros.h
@@ -14,7 +14,7 @@ ros/ros.h
 geometry_msgs/Twist.h
 -
 
-/home/oscar/ws_oscar/hunter/src/human_robot_interaction/src/human_robot_system.cpp
+/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/src/human_robot_system.cpp
 human_robot_system.h
 -
 

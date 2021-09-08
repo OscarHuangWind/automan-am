@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/oscar/ws_oscar/hunter/src/human_robot_interaction/src/human_robot_system.cpp" "/home/oscar/ws_oscar/hunter/build/human_robot_interaction/CMakeFiles/human_robot_interaction.dir/src/human_robot_system.cpp.o"
+  "/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/src/human_robot_system.cpp" "/home/oscar/ws_oscar/automan-am/build/human_robot_interaction/CMakeFiles/human_robot_interaction.dir/src/human_robot_system.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -18,7 +18,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/oscar/ws_oscar/hunter/src/human_robot_interaction/include/human_robot_interaction"
+  "/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/include/human_robot_interaction"
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   "/usr/include/eigen3"

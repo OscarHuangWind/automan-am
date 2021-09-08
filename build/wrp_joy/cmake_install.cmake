@@ -1,8 +1,8 @@
-# Install script for directory: /home/oscar/ws_oscar/hunter/src/wrp_joy
+# Install script for directory: /home/oscar/ws_oscar/automan-am/src/wrp_joy
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/oscar/ws_oscar/hunter/install")
+  set(CMAKE_INSTALL_PREFIX "/home/oscar/ws_oscar/automan-am/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/oscar/ws_oscar/hunter/build/wrp_joy/catkin_generated/installspace/wrp_joy.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/oscar/ws_oscar/automan-am/build/wrp_joy/catkin_generated/installspace/wrp_joy.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/wrp_joy/cmake" TYPE FILE FILES
-    "/home/oscar/ws_oscar/hunter/build/wrp_joy/catkin_generated/installspace/wrp_joyConfig.cmake"
-    "/home/oscar/ws_oscar/hunter/build/wrp_joy/catkin_generated/installspace/wrp_joyConfig-version.cmake"
+    "/home/oscar/ws_oscar/automan-am/build/wrp_joy/catkin_generated/installspace/wrp_joyConfig.cmake"
+    "/home/oscar/ws_oscar/automan-am/build/wrp_joy/catkin_generated/installspace/wrp_joyConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/wrp_joy" TYPE FILE FILES "/home/oscar/ws_oscar/hunter/src/wrp_joy/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/wrp_joy" TYPE FILE FILES "/home/oscar/ws_oscar/automan-am/src/wrp_joy/package.xml")
 endif()
 

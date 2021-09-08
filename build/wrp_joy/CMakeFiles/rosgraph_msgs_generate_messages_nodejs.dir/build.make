@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/oscar/ws_oscar/hunter/src
+CMAKE_SOURCE_DIR = /home/oscar/ws_oscar/automan-am/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/oscar/ws_oscar/hunter/build
+CMAKE_BINARY_DIR = /home/oscar/ws_oscar/automan-am/build
 
 # Utility rule file for rosgraph_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build: rosgraph_ms
 .PHONY : wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
 
 wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/oscar/ws_oscar/hunter/build/wrp_joy && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/oscar/ws_oscar/automan-am/build/wrp_joy && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
 
 wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/oscar/ws_oscar/hunter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/oscar/ws_oscar/hunter/src /home/oscar/ws_oscar/hunter/src/wrp_joy /home/oscar/ws_oscar/hunter/build /home/oscar/ws_oscar/hunter/build/wrp_joy /home/oscar/ws_oscar/hunter/build/wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/oscar/ws_oscar/automan-am/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/oscar/ws_oscar/automan-am/src /home/oscar/ws_oscar/automan-am/src/wrp_joy /home/oscar/ws_oscar/automan-am/build /home/oscar/ws_oscar/automan-am/build/wrp_joy /home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/depend
 

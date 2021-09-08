@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/oscar/ws_oscar/hunter/src
+CMAKE_SOURCE_DIR = /home/oscar/ws_oscar/automan-am/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/oscar/ws_oscar/hunter/build
+CMAKE_BINARY_DIR = /home/oscar/ws_oscar/automan-am/build
 
 # Utility rule file for actionlib_msgs_generate_messages_py.
 
@@ -63,10 +63,10 @@ human_robot_interaction/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
 .PHONY : human_robot_interaction/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
 
 human_robot_interaction/CMakeFiles/actionlib_msgs_generate_messages_py.dir/clean:
-	cd /home/oscar/ws_oscar/hunter/build/human_robot_interaction && $(CMAKE_COMMAND) -P CMakeFiles/actionlib_msgs_generate_messages_py.dir/cmake_clean.cmake
+	cd /home/oscar/ws_oscar/automan-am/build/human_robot_interaction && $(CMAKE_COMMAND) -P CMakeFiles/actionlib_msgs_generate_messages_py.dir/cmake_clean.cmake
 .PHONY : human_robot_interaction/CMakeFiles/actionlib_msgs_generate_messages_py.dir/clean
 
 human_robot_interaction/CMakeFiles/actionlib_msgs_generate_messages_py.dir/depend:
-	cd /home/oscar/ws_oscar/hunter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/oscar/ws_oscar/hunter/src /home/oscar/ws_oscar/hunter/src/human_robot_interaction /home/oscar/ws_oscar/hunter/build /home/oscar/ws_oscar/hunter/build/human_robot_interaction /home/oscar/ws_oscar/hunter/build/human_robot_interaction/CMakeFiles/actionlib_msgs_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/oscar/ws_oscar/automan-am/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/oscar/ws_oscar/automan-am/src /home/oscar/ws_oscar/automan-am/src/human_robot_interaction /home/oscar/ws_oscar/automan-am/build /home/oscar/ws_oscar/automan-am/build/human_robot_interaction /home/oscar/ws_oscar/automan-am/build/human_robot_interaction/CMakeFiles/actionlib_msgs_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : human_robot_interaction/CMakeFiles/actionlib_msgs_generate_messages_py.dir/depend
 
