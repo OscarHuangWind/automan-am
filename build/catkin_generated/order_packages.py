@@ -2,4 +2,4 @@
 source_root_dir = '/home/oscar/ws_oscar/automan-am/src'
 whitelisted_packages = 'wrp_joy'.split(';') if 'wrp_joy' != '' else []
 blacklisted_packages = ''.split(';') if '' != '' else []
-underlay_workspaces = '/opt/ros/noetic'.split(';') if '/opt/ros/noetic' != '' else []
+underlay_workspaces = '/home/oscar/ws_oscar/automan-am/devel;/opt/ros/noetic'.split(';') if '/home/oscar/ws_oscar/automan-am/devel;/opt/ros/noetic' != '' else []

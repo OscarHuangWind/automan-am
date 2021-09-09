@@ -1,0 +1,7 @@
+set(wrp_joy_SETUP_PY_SETUP_MODULE "distutils.core")
+set(wrp_joy_SETUP_PY_VERSION "0.0.0")
+set(wrp_joy_SETUP_PY_SCRIPTS "")
+set(wrp_joy_SETUP_PY_PACKAGES "wrp_joy")
+set(wrp_joy_SETUP_PY_PACKAGE_DIRS "src/wrp_joy")
+set(wrp_joy_SETUP_PY_MODULES "")
+set(wrp_joy_SETUP_PY_MODULE_DIRS "")
