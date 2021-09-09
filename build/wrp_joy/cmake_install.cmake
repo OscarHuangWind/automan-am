@@ -52,3 +52,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/wrp_joy" TYPE FILE FILES "/home/oscar/ws_oscar/automan-am/src/wrp_joy/package.xml")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/wrp_joy" TYPE PROGRAM FILES "/home/oscar/ws_oscar/automan-am/build/wrp_joy/catkin_generated/installspace/wrp_joy_node.py")
+endif()
+

@@ -52,3 +52,11 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/human_robot_interaction" TYPE FILE FILES "/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/package.xml")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/human_robot_interaction" TYPE PROGRAM FILES "/home/oscar/ws_oscar/automan-am/build/human_robot_interaction/catkin_generated/installspace/human_robot_system.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/human_robot_interaction" TYPE PROGRAM FILES "/home/oscar/ws_oscar/automan-am/build/human_robot_interaction/catkin_generated/installspace/control_authority.py")
+endif()
+
