@@ -1,8 +1,10 @@
 import os
 import cv2
 import sys
+import rospy
 sys.path.append('..')
 import numpy as np
+from std_msgs.msg import Float64
 from math import cos, sin
 # from moviepy.editor import *
 from lib.FSANET_model import *
@@ -257,6 +259,9 @@ def main():
         else:
            state_txt='distract'
         '''
+        states = rospy.Publisher('/attention_states', Float64, queue_size=10)
+        states.publish(state)
+        
         state_txt='%.2f'%state
 
         cv2.putText(input_img,state_txt, (320,240),cv2.FONT_HERSHEY_COMPLEX,6,(0,0,255),25)
@@ -288,4 +293,5 @@ def isattention(pyr,t1,t2):
        return 0
         
 if __name__ == '__main__':
+    rospy.init_node('AttentionStates', anonymous=True)
     main()

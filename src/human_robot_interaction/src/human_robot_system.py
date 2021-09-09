@@ -8,8 +8,10 @@ Created on Fri Sep  3 15:41:17 2021
 
 import numpy as np
 import rospy
+import threading
 from .control_authority import Authority
 from geometry_msgs.msg import Twist
+lock = threading.Lock()
 
 
 class HRS():
@@ -22,6 +24,7 @@ class HRS():
         self.vel_adas_.linear.x = 999
         self.vel_adas_.angular.z = 999
         self.authority = Authority()
+        self.attention_ = 0.0
 
     def SetParameter(self, cmd_vel_adas):
         if (cmd_vel_adas == None):
@@ -30,6 +33,13 @@ class HRS():
             # rospy.logwarn("Oscar::No command from ADAS.")
 
         self.vel_adas_ = cmd_vel_adas
+    
+    def SetAttention(self, attention):
+        if (attention == None):
+            self.attention_ = 0.0
+        else:
+            self.attention_ = attention
+
 
     def CalFinalVelocityCmd(self, vel_cmd_final):
         flag = ((abs(self.vel_adas_.linear.x) > 100.0) and
@@ -51,10 +61,11 @@ class HRS():
                 ##### Power Steering #####
                 lat_risk_human = self.vel_adas_.angular.x
                 # lat_risk_auto = self.vel_adas_.angular.y
-                attention = 0.0
+                #self.attention = 0.0
                 # rospy.logwarn("Oscar::The x:%f, y:%f, risk_human:%f, attention:%f" %
                 #               self.vel_adas_.angular.x, self.vel_adas_.angular.y, lat_risk_human, attention)
-                self.authority.SetInput(lat_risk_human, attention)
+                with lock:
+                    self.authority.SetInput(lat_risk_human, self.attention_)
                 self.authority.ComputeAuthority()
                 self.weight_driver_cmd_rot_ = self.authority.GetAuthority()
 
