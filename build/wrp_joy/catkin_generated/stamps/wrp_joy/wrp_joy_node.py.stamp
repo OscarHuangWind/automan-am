@@ -13,6 +13,7 @@ import message_filters
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Joy, Range
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Float64
 from human_robot_interaction.src.human_robot_system import HRS
 
 lock = threading.Lock()
@@ -70,15 +71,22 @@ class TeleopWR():
         self.joy_sub_ = rospy.Subscriber('/joy', Joy, self.joyCallback)
         self.odom_sub_ = rospy.Subscriber('/odom', Odometry, self.odom_CB)
 
+        self.attention_states_sub_ = rospy.Subscriber('/attention_states', Float64, self.states_CB)
+
     def adas_CB(self, twist):
         #rospy.loginfo("Received a /cmd_vel_adas message!")
         #rospy.loginfo("Linear Components: [%f, %f, %f]"%(twist.linear.x, twist.linear.y, twist.linear.z))
         #rospy.loginfo("Angular Components: [%f, %f, %f]"%(twist.angular.x, twist.angular.y, twist.angular.z))
         self.hrs.SetParameter(twist)
-
+    
+    def states_CB(self, attention):
+        self.hrs.SetAttention(attention)
+        
     def odom_CB(self, odom):
         # rospy.loginfo("Oscar::Received message from hunter. %f, %f", odom->twist.twist.linear.x, odom->twist.twist.angular.z)
         self.velo_x_ = odom.twist.twist.linear.x
+
+    
 
     def joyCallback(self, joy):
 
@@ -130,7 +138,6 @@ class TeleopWR():
         
         if (len(self.twist_buffer_) > 10):
             self.twist_buffer_.pop(0)
-
 
         cmd_vel_lon_sum = 0.0
         cmd_vel_rot_sum = 0.0

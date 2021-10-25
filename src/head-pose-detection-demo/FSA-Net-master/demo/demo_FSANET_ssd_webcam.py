@@ -1,10 +1,12 @@
 import os
 import cv2
 import sys
+import rospy
+import time
 sys.path.append('..')
 import numpy as np
+from std_msgs.msg import Float64
 from math import cos, sin
-# from moviepy.editor import *
 from lib.FSANET_model import *
 import numpy as np
 from keras.layers import Average
@@ -42,9 +44,9 @@ def draw_axis(img, yaw, pitch, roll, tdx=None, tdy=None, size = 50):
     x3 = size * (sin(yaw)) + tdx
     y3 = size * (-cos(yaw) * sin(pitch)) + tdy
 
-    cv2.line(img, (int(tdx), int(tdy)), (int(x1),int(y1)),(0,0,255),3)
-    cv2.line(img, (int(tdx), int(tdy)), (int(x2),int(y2)),(0,255,0),3)
-    cv2.line(img, (int(tdx), int(tdy)), (int(x3),int(y3)),(255,0,0),2)
+    #cv2.line(img, (int(tdx), int(tdy)), (int(x1),int(y1)),(0,0,255),3)
+    #cv2.line(img, (int(tdx), int(tdy)), (int(x2),int(y2)),(0,255,0),3)
+    #cv2.line(img, (int(tdx), int(tdy)), (int(x3),int(y3)),(255,0,0),2)
 
     return img
     
@@ -168,11 +170,6 @@ def main():
     modelPath = os.path.sep.join(["face_detector",
         "res10_300x300_ssd_iter_140000.caffemodel"])
     net = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
-
-    # capture video
-    # cap = cv2.VideoCapture('hah_color.avi')
-    # cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1024*1)
-    # cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 768*1)
     
     p_init=0
     y_init=0
@@ -190,83 +187,97 @@ def main():
     cv2.namedWindow('img', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('img', 640, 480)
     while True:
-        # get video frame
-        #ret, input_img = cap.read()
-        _, input_img = cap.read()
-        input_img=cv2.resize(input_img, (960, 540))
+        try:
+            # get video frame
+            #ret, input_img = cap.read()
+            _, input_img = cap.read()
+            input_img=cv2.resize(input_img, (960, 540))
 
 
-        img_idx = img_idx + 1
-        img_h, img_w, _ = np.shape(input_img)
+            img_idx = img_idx + 1
+            img_h, img_w, _ = np.shape(input_img)
 
-        
-        if img_idx==1 or img_idx%skip_frame == 0:
-            time_detection = 0
-            time_network = 0
-            time_plot = 0
             
-            # detect faces using LBP detector
-            gray_img = cv2.cvtColor(input_img,cv2.COLOR_BGR2GRAY)
-            # detected = face_cascade.detectMultiScale(gray_img, 1.1)
-            # detected = detector.detect_faces(input_img)
-            # pass the blob through the network and obtain the detections and
-            # predictions
-            blob = cv2.dnn.blobFromImage(cv2.resize(input_img, (300, 300)), 1.0,
-                (300, 300), (104.0, 177.0, 123.0))
-            net.setInput(blob)
-            detected = net.forward()
+            if img_idx==1 or img_idx%skip_frame == 0:
+                time_detection = 0
+                time_network = 0
+                time_plot = 0
+                
+                # detect faces using LBP detector
+                gray_img = cv2.cvtColor(input_img,cv2.COLOR_BGR2GRAY)
+                # detected = face_cascade.detectMultiScale(gray_img, 1.1)
+                # detected = detector.detect_faces(input_img)
+                # pass the blob through the network and obtain the detections and
+                # predictions
+                blob = cv2.dnn.blobFromImage(cv2.resize(input_img, (300, 300)), 1.0,
+                    (300, 300), (104.0, 177.0, 123.0))
+                net.setInput(blob)
+                detected = net.forward()
 
-            if detected_pre.shape[2] > 0 and detected.shape[2] == 0:
-                detected = detected_pre
+                if detected_pre.shape[2] > 0 and detected.shape[2] == 0:
+                    detected = detected_pre
 
-            faces = np.empty((detected.shape[2], img_size, img_size, 3))
+                faces = np.empty((detected.shape[2], img_size, img_size, 3))
 
-            input_img, y,r,p = draw_results_ssd(detected,input_img,faces,ad,img_size,img_w,img_h,model,time_detection,time_network,time_plot)
-            #cv2.imwrite('img/'+str(img_idx)+'.png',input_img)
+                input_img, y,r,p = draw_results_ssd(detected,input_img,faces,ad,img_size,img_w,img_h,model,time_detection,time_network,time_plot)
+                #cv2.imwrite('img/'+str(img_idx)+'.png',input_img)
+                
+            else:
+                input_img,y,r,p = draw_results_ssd(detected,input_img,faces,ad,img_size,img_w,img_h,model,time_detection,time_network,time_plot)
             
-        else:
-            input_img,y,r,p = draw_results_ssd(detected,input_img,faces,ad,img_size,img_w,img_h,model,time_detection,time_network,time_plot)
-        
 
-        idx+=1
+            idx+=1
+            
+            #prepare 
+            if idx<10:
+                continue
+            
+            #initialization 
+            if p_init==0 and y_init==0:
+                p_init=p
+                y_init=y
+                continue
+            
+            #atten= max(isattention(abs(p-p_init),5,10),isattention(abs(y-y_init),20,30)) #each frame state of user
+            atten= attenscore(abs(y-y_init),15) #each frame
         
-        #prepare 
-        if idx<10:
-           continue
-        
-        #initialization 
-        if p_init==0 and y_init==0:
-           p_init=p
-           y_init=y
-           continue
-        
-        #atten= max(isattention(abs(p-p_init),5,10),isattention(abs(y-y_init),20,30)) #each frame state of user
-        atten= attenscore(abs(y-y_init),20) #each frame
-       
-        atten_ls.append(atten)
-        if len(atten_ls)>20:
-           atten_ls.pop(0)
+            atten_ls.append(atten)
+            if len(atten_ls)>20:
+                atten_ls.pop(0)
 
-        state=np.mean(atten_ls)   #mean frame state of user
+            state=np.mean(atten_ls)   #mean frame state of user
+            
+            '''
+            if state<0.3:
+            state_txt='focus'
+            elif state<1.3:
+            state_txt='part'
+            else:
+            state_txt='distract'
+            '''
+            states = rospy.Publisher('/attention_states', Float64, queue_size=10)
+            states.publish(Float64(state))
+            
+            #state_txt='%.2f'%state
+            #cv2.putText(input_img,state_txt, (320,240),cv2.FONT_HERSHEY_COMPLEX,6,(0,0,255),25)
+            if state<0.5:
+                cv2.rectangle(input_img,(int(input_img.shape[1]/4),int(input_img.shape[0]/4)),(int(input_img.shape[1]/4*3),int(input_img.shape[0]/4*3)),(0,255,0),5)
+            elif state<0.8:
+                cv2.rectangle(input_img,(int(input_img.shape[1]/8),int(input_img.shape[0]/8)),(int(input_img.shape[1]/8*7),int(input_img.shape[0]/8*7)),(0,255,0),5)
+            else:
+                cv2.rectangle(input_img,(1,1),(int(input_img.shape[1]-1),int(input_img.shape[0]-1)),(0,0,255),5)
+            
+            cv2.imshow("img", input_img)
+#            cv2.imwrite('/home/oscar/ws_oscar/atten_record/atten_%05d.jpg'%idx,input_img)
+
+            if detected.shape[2] > detected_pre.shape[2] or img_idx%(skip_frame*3) == 0:
+                detected_pre = detected
+
+            key = cv2.waitKey(1)
+        except KeyboardInterrupt:
+            print('Interupt.')
+            break
         
-        '''
-        if state<0.3:
-           state_txt='focus'
-        elif state<1.3:
-           state_txt='part'
-        else:
-           state_txt='distract'
-        '''
-        state_txt='%.2f'%state
-
-        cv2.putText(input_img,state_txt, (320,240),cv2.FONT_HERSHEY_COMPLEX,6,(0,0,255),25)
-        
-        cv2.imshow("img", input_img)
-
-        if detected.shape[2] > detected_pre.shape[2] or img_idx%(skip_frame*3) == 0:
-            detected_pre = detected
-
-        key = cv2.waitKey(1)
 
 def attenscore(pyr,t1):
     
@@ -288,4 +299,5 @@ def isattention(pyr,t1,t2):
        return 0
         
 if __name__ == '__main__':
+    rospy.init_node('AttentionStates', anonymous=True)
     main()
