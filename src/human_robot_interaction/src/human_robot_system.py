@@ -9,8 +9,11 @@ Created on Fri Sep  3 15:41:17 2021
 import numpy as np
 import rospy
 import threading
+from collections import deque
 from .control_authority import Authority
 from geometry_msgs.msg import Twist
+from statistics import mean
+
 lock = threading.Lock()
 
 
@@ -25,6 +28,7 @@ class HRS():
         self.vel_adas_.angular.z = 999
         self.authority = Authority()
         self.attention_ = 0.0
+        self.weight_driver_list = deque(maxlen=120)
 
     def SetParameter(self, cmd_vel_adas):
         if (cmd_vel_adas == None):
@@ -38,8 +42,7 @@ class HRS():
         if (attention == None):
             self.attention_ = 0.0
         else:
-            self.attention_ = attention
-
+            self.attention_ = attention.data
 
     def CalFinalVelocityCmd(self, vel_cmd_final):
         flag = ((abs(self.vel_adas_.linear.x) > 100.0) and
@@ -57,17 +60,20 @@ class HRS():
                 self.weight_adas_cmd_rot_ = 0.0
                 self.weight_driver_cmd_lon_ = 1.0 - self.weight_adas_cmd_lon_
                 self.weight_driver_cmd_rot_ = 1.0 - self.weight_adas_cmd_rot_
+                # rospy.logwarn('%f', self.weight_driver_cmd_lon_)
+
             else:
                 ##### Power Steering #####
                 lat_risk_human = self.vel_adas_.angular.x
-                # lat_risk_auto = self.vel_adas_.angular.y
-                #self.attention = 0.0
+                if (lat_risk_human < 1.0):
+                    lat_risk_human = 1.0
                 # rospy.logwarn("Oscar::The x:%f, y:%f, risk_human:%f, attention:%f" %
                 #               self.vel_adas_.angular.x, self.vel_adas_.angular.y, lat_risk_human, attention)
                 with lock:
                     self.authority.SetInput(lat_risk_human, self.attention_)
                 self.authority.ComputeAuthority()
                 self.weight_driver_cmd_rot_ = self.authority.GetAuthority()
+                rospy.logwarn('%f, %f, %f', lat_risk_human, self.attention_, self.weight_driver_cmd_rot_)
 
                 if (self.weight_driver_cmd_rot_ < 0.01):
                     self.weight_driver_cmd_rot_ = 0
@@ -83,6 +89,12 @@ class HRS():
                 self.vel_adas_.linear.x = 0.0
 
         self.CalculateVelocity(vel_cmd_final)
+
+        # self.weight_driver_list.append(self.weight_driver_cmd_lon_)
+        #self.weight_driver_cmd_lon_ = mean(self.weight_driver_list)
+        # self.weight_driver_cmd_rot_ = self.weight_driver_cmd_lon_
+        # rospy.logwarn(self.weight_driver_cmd_lon_)
+
         return True
 
     def Reset(self):

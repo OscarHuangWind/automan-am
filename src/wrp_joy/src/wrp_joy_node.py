@@ -9,6 +9,8 @@ Created on Thu Sep  2 14:51:54 2021
 import rospy
 import threading
 import message_filters
+from collections import deque
+from statistics import mean
 
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Joy, Range
@@ -55,7 +57,8 @@ class TeleopWR():
         self.l_scale_ = rospy.get_param('scale_linear', l_scale)
         self.a_scale_ = rospy.get_param('scale_angular', a_scale)
         self.safe_dist_ = rospy.get_param('safe_distance', safe_dist)
-        self.twist_buffer_ = []
+        self.twist_linear_buffer_ = deque(maxlen=40)
+        self.twist_angular_buffer_ = deque(maxlen=40)
 
         self.ats_ = message_filters.ApproximateTimeSynchronizer([self.ultra0_, self.ultra1_, self.ultra2_, self.ultra3_], queue_size=10, slop=0.1)
         self.ats_.registerCallback(self.ultraCallBack)
@@ -134,29 +137,30 @@ class TeleopWR():
                     # rospy.logwarn("THHHHE non-op velocity is:%f", self.velo_x_)
                         twist_data.linear.x = min(self.velo_x_ + min(self.dec_default_, self.acc_limit_), 0.0)
 
-            self.twist_buffer_.append(twist_data)
-        
-        if (len(self.twist_buffer_) > 10):
-            self.twist_buffer_.pop(0)
+            self.twist_linear_buffer_.append(twist_data.linear.x)
+            self.twist_angular_buffer_.append(twist_data.angular.z)
 
+        if (len(self.twist_linear_buffer_) != 0):
+            twist_data.linear.x = mean(self.twist_linear_buffer_)
+            twist_data.angular.z = mean(self.twist_angular_buffer_)
 
-        cmd_vel_lon_sum = 0.0
-        cmd_vel_rot_sum = 0.0
+        # for t in self.twist_buffer_:
+        #     cmd_vel_lon_sum += t.linear.x
+        #     cmd_vel_rot_sum += t.angular.z
 
-        for t in self.twist_buffer_:
-            cmd_vel_lon_sum += t.linear.x
-            cmd_vel_rot_sum += t.angular.z
-
-        twist_data.linear.x = (cmd_vel_lon_sum /
-                               max((len(self.twist_buffer_)), 1))
-        twist_data.angular.z = (cmd_vel_rot_sum /
-                                max((len(self.twist_buffer_)), 1))
+        # twist_data.linear.x = (cmd_vel_lon_sum /
+        #                        max((len(self.twist_buffer_)), 1))
+        # twist_data.angular.z = (cmd_vel_rot_sum /
+        #                         max((len(self.twist_buffer_)), 1))
 
         self.adas_trigger_pub_.publish(twist_data)
         # rospy.logwarn("Oscar::THE driver velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)\
 
         self.hrs.CalFinalVelocityCmd(twist_data)
         # rospy.logwarn("Oscar::THE final velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)
+
+        twist_data.angular.y = self.hrs.weight_driver_cmd_lon_
+        twist_data.angular.x = self.hrs.weight_adas_cmd_lon_
 
         self.wr_pub_.publish(twist_data)
 
