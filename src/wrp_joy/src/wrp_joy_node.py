@@ -19,7 +19,7 @@ from std_msgs.msg import Float64
 from human_robot_interaction.src.human_robot_system import HRS
 
 lock = threading.Lock()
-MIN_RANGE = 0.2000
+MIN_RANGE = 0.5000
 MAX_RANGE = 0.9000
 
 velo_limit = 0.5
@@ -32,6 +32,9 @@ l_scale = 0.5
 a_scale = 0.3
 dec_idx = 0
 safe_dist = MAX_RANGE
+ultra_dist_out = 0.45
+ultra_dist_front = 0.3
+ultra_dist_inner = 0.9
 
 class TeleopWR():
 
@@ -42,10 +45,14 @@ class TeleopWR():
         self.safe_scale_ = 0.05
         self.velo_x_ = 0.0
 
-        self.ultra0_ = message_filters.Subscriber('/ultrasonic1', Range)
-        self.ultra1_ = message_filters.Subscriber('/ultrasonic3', Range)
+        self.ultra0_ = message_filters.Subscriber('/ultrasonic0', Range)
+        self.ultra1_ = message_filters.Subscriber('/ultrasonic1', Range)
         self.ultra2_ = message_filters.Subscriber('/ultrasonic2', Range)
-        self.ultra3_ = message_filters.Subscriber('/ultrasonic6', Range)
+        self.ultra3_ = message_filters.Subscriber('/ultrasonic3', Range)
+        self.ultra4_ = message_filters.Subscriber('/ultrasonic4', Range)
+        self.ultra5_ = message_filters.Subscriber('/ultrasonic5', Range)
+        self.ultra6_ = message_filters.Subscriber('/ultrasonic6', Range)
+        self.ultra7_ = message_filters.Subscriber('/ultrasonic7', Range)
 
         self.threshold_ = rospy.get_param('threshold', threshold)
         self.vel_limit_ = rospy.get_param('velo_limit', velo_limit)
@@ -57,10 +64,10 @@ class TeleopWR():
         self.l_scale_ = rospy.get_param('scale_linear', l_scale)
         self.a_scale_ = rospy.get_param('scale_angular', a_scale)
         self.safe_dist_ = rospy.get_param('safe_distance', safe_dist)
-        self.twist_linear_buffer_ = deque(maxlen=40)
-        self.twist_angular_buffer_ = deque(maxlen=40)
+        self.twist_linear_buffer_ = deque(maxlen=5)
+        self.twist_angular_buffer_ = deque(maxlen=5)
 
-        self.ats_ = message_filters.ApproximateTimeSynchronizer([self.ultra0_, self.ultra1_, self.ultra2_, self.ultra3_], queue_size=10, slop=0.1)
+        self.ats_ = message_filters.ApproximateTimeSynchronizer([self.ultra0_, self.ultra1_, self.ultra2_, self.ultra3_, self.ultra4_, self.ultra5_,self.ultra6_ ,self.ultra7_ ], queue_size=5, slop=0.1)
         self.ats_.registerCallback(self.ultraCallBack)
 
         # publisher
@@ -92,7 +99,7 @@ class TeleopWR():
     
 
     def joyCallback(self, joy):
-
+        
         twist_data = Twist()
         if(joy.buttons[5] == 1 and joy.axes[self.acc_idx_] == -1 and joy.axes[self.dec_idx_] == -1):
             print('7253')
@@ -103,39 +110,40 @@ class TeleopWR():
 
                 if (joy.axes[self.dec_idx_] > -1):
                     with lock:
-                        # rospy.logwarn("The brake velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = max(self.velo_x_ - min(self.safe_scale_ * self.l_scale_ * (
-                            joy.axes[self.acc_idx_] + 1), self.acc_limit_), 0.0)
+                        #rospy.logwarn("The brake velocity is:%f", self.velo_x_)
+                        twist_data.linear.x = ((max(self.velo_x_ - min(self.safe_scale_ * self.l_scale_ * (
+                            joy.axes[self.dec_idx_] + 1), self.acc_limit_), 0.0))*self.safe_scale_)
+
                 elif (joy.axes[self.acc_idx_] > self.threshold_):
                     with lock:
-                        # rospy.logwarn("The acc velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = min(self.velo_x_ + min(self.safe_scale_ * self.l_scale_ * (
-                            joy.axes[self.acc_idx_] + 1), self.acc_limit_), self.vel_limit_)
+                        #rospy.logwarn("The acc velocity is:%f", self.velo_x_)
+                        twist_data.linear.x = ((min(self.velo_x_ + min(self.safe_scale_ * self.l_scale_ * (
+                            joy.axes[self.acc_idx_] + 1), self.acc_limit_), self.vel_limit_))*self.safe_scale_)
                 elif (joy.axes[self.acc_idx_] > -1 and joy.axes[self.acc_idx_] <= self.threshold_):
                     with lock:
-                        # rospy.logwarn("The maintain velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = min(self.velo_x_, self.vel_limit_)
+                        #rospy.logwarn("The maintain velocity is:%f", self.velo_x_)
+                        twist_data.linear.x = ((min(self.velo_x_, self.vel_limit_))*self.safe_scale_)
                 else:
                     with lock:
-                    # rospy.logwarn("The non-op velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = max(self.velo_x_ - min(self.dec_default_, self.acc_limit_), 0.0)
+                        #rospy.logwarn("The non-op velocity is:%f", self.velo_x_)
+                        twist_data.linear.x = ((max(self.velo_x_ - min(self.dec_default_, self.acc_limit_), 0.0))*self.safe_scale_)
             else:
                 if (joy.axes[self.dec_idx_] > -1):
                     with lock:
-                        # rospy.logwarn("THHHHE brake velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = min(self.velo_x_ + min(self.safe_scale_ * self.l_scale_ * (
-                            joy.axes[self.dec_idx_] + 1), self.acc_limit_), 0.0)
+                        #rospy.logwarn("THHHHE brake velocity is:%f", self.velo_x_)
+                        twist_data.linear.x = ((min(self.velo_x_ + min(self.reverse_safe_scale_ * self.l_scale_ * (
+                            joy.axes[self.dec_idx_] + 1), self.acc_limit_), 0.0))*self.reverse_safe_scale_)
 
                 elif (joy.axes[self.acc_idx_] > -1):
                     with lock:
-                        # rospy.logwarn("THHHHE acc velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = max(self.velo_x_ - min(self.safe_scale_ * self.l_scale_ * (
-                            joy.axes[self.acc_idx_] + 1), self.acc_limit_), -self.vel_limit_)
+                        #rospy.logwarn("THHHHE acc velocity is:%f", self.velo_x_)
+                        twist_data.linear.x = (max(self.velo_x_ - min(self.reverse_safe_scale_ * self.l_scale_ * (
+                            joy.axes[self.acc_idx_] + 1), self.acc_limit_), -self.vel_limit_))*self.reverse_safe_scale_
 
                 else:
                     with lock:
-                    # rospy.logwarn("THHHHE non-op velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = min(self.velo_x_ + min(self.dec_default_, self.acc_limit_), 0.0)
+                        #rospy.logwarn("THHHHE non-op velocity is:%f", self.velo_x_)
+                        twist_data.linear.x = (min(self.velo_x_ + min(self.dec_default_, self.acc_limit_), 0.0))*self.reverse_safe_scale_
 
             self.twist_linear_buffer_.append(twist_data.linear.x)
             self.twist_angular_buffer_.append(twist_data.angular.z)
@@ -164,14 +172,45 @@ class TeleopWR():
 
         self.wr_pub_.publish(twist_data)
 
-    def ultraCallBack(self, ultra0, ultra1, ultra2, ultra3):
-        if ((ultra0.range > MIN_RANGE and ultra0.range < self.safe_dist_) or
-            (ultra1.range > MIN_RANGE and ultra1.range < self.safe_dist_) or
-            (ultra2.range > MIN_RANGE and ultra2.range < self.safe_dist_) or
-                (ultra3.range > MIN_RANGE and ultra3.range < self.safe_dist_)):
-            self.safe_scale_ = 0.05
+    def ultraCallBack(self, ultra0, ultra1, ultra2, ultra3,ultra4,ultra5,ultra6,ultra7):
+        self.safe_scale_ = 1
+        self.reverse_safe_scale_ = 1
+
+        if (((ultra0.range < ultra_dist_front) or
+            (ultra1.range < ultra_dist_inner) or
+            (ultra2.range < ultra_dist_inner) or
+            (ultra3.range < ultra_dist_front)) and ((ultra4.range > ultra_dist_out) or
+            (ultra5.range > ultra_dist_inner) or
+            (ultra6.range > ultra_dist_inner) or
+            (ultra7.range > ultra_dist_out))):
+            self.safe_scale_ = 0
+            self.reverse_safe_scale_ = 1
+
+        elif ((ultra4.range < ultra_dist_out) or
+            (ultra5.range < ultra_dist_inner) or
+            (ultra6.range < ultra_dist_inner) or
+            (ultra7.range < ultra_dist_out)) and (((ultra0.range > ultra_dist_front) or
+            (ultra1.range > ultra_dist_inner) or
+            (ultra2.range > ultra_dist_inner) or
+            (ultra3.range > ultra_dist_front))):
+            self.safe_scale_ = 1
+            self.reverse_safe_scale_ = 0
+        elif ((ultra0.range < ultra_dist_front) or
+            (ultra1.range < ultra_dist_inner) or
+            (ultra2.range < ultra_dist_inner) or
+            (ultra3.range < ultra_dist_front)) and (((ultra4.range < ultra_dist_out) or
+            (ultra5.range < ultra_dist_inner) or
+            (ultra6.range < ultra_dist_inner) or
+            (ultra7.range < ultra_dist_out))):
+            self.safe_scale_ = 0
+            self.reverse_safe_scale_ = 0
         else:
-            self.safe_scale_ = 1.0
+            self.safe_scale_ = 1
+            self.reverse_safe_scale_ = 1
+
+            
+        
+
 
 
 if __name__ == '__main__':
