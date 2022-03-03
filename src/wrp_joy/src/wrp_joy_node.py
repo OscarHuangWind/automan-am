@@ -18,6 +18,8 @@ from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
 from human_robot_interaction.src.human_robot_system import HRS
 
+import actionlib
+from move_base_msgs.msg import MoveBaseGoal, MoveBaseAction
 lock = threading.Lock()
 MIN_RANGE = 0.5000
 MAX_RANGE = 0.9000
@@ -32,9 +34,9 @@ l_scale = 0.5
 a_scale = 0.3
 dec_idx = 0
 safe_dist = MAX_RANGE
-ultra_dist_out = 0.45
-ultra_dist_front = 0.3
-ultra_dist_inner = 0.9
+ultra_dist_out = 0.0#0.45
+ultra_dist_front = 0.0#0.3
+ultra_dist_inner = 0.0#0.9
 
 class TeleopWR():
 
@@ -79,13 +81,14 @@ class TeleopWR():
         # suscriber
         self.cmd_adas_sub_ = rospy.Subscriber('/cmd_vel_adas', Twist, self.adas_CB)
         self.joy_sub_ = rospy.Subscriber('/joy', Joy, self.joyCallback)
+        self.pilot_sub_ = rospy.Subscriber('/joy', Joy, self.joyCallback)
         self.odom_sub_ = rospy.Subscriber('/odom', Odometry, self.odom_CB)
 
         self.attention_states_sub_ = rospy.Subscriber('/attention_states', Float64, self.states_CB)
 
     def adas_CB(self, twist):
         #rospy.loginfo("Received a /cmd_vel_adas message!")
-        #rospy.loginfo("Linear Components: [%f, %f, %f]"%(twist.linear.x, twist.linear.y, twist.linear.z))
+        # rospy.logwarn("Linear Components: [%f, %f, %f]"%(twist.linear.x, twist.linear.y, twist.linear.z))
         #rospy.loginfo("Angular Components: [%f, %f, %f]"%(twist.angular.x, twist.angular.y, twist.angular.z))
         self.hrs.SetParameter(twist)
     
@@ -100,9 +103,39 @@ class TeleopWR():
 
     def joyCallback(self, joy):
         
+        if (joy.buttons[19] == 1):
+            self.hrs.SetAGVFlagTrue()
+            client = actionlib.SimpleActionClient('AGV', MoveBaseAction)
+            client.wait_for_server()
+            goal = MoveBaseGoal()
+            goal.target_pose.header.frame_id = "map"
+            goal.target_pose.header.stamp = rospy.Time.now()
+            goal.target_pose.pose.orientation.x = 0.1
+            goal.target_pose.pose.orientation.y = 0.1
+            goal.target_pose.pose.orientation.z = 0.7
+            goal.target_pose.pose.orientation.w = 0.1
+            client.send_goal(goal)
+            # wait = client.wait_for_result()
+            # if not wait:
+            #     rospy.logerr("Action server not available!")
+            #     rospy.signal_shutdown("Action server not available!")
+            # else:
+            #     return client.get_result()
+        elif (joy.buttons[20] == 1):
+            self.hrs.SetAGVFlagFalse()
+            client = actionlib.SimpleActionClient('CoPilot', MoveBaseAction)
+            # client.wait_for_server()
+            goal = MoveBaseGoal()
+            goal.target_pose.header.frame_id = "map"
+            goal.target_pose.header.stamp = rospy.Time.now()
+            goal.target_pose.pose.orientation.x = 0.1
+            goal.target_pose.pose.orientation.y = 0.1
+            goal.target_pose.pose.orientation.z = 0.7
+            goal.target_pose.pose.orientation.w = 0.1
+            client.send_goal(goal)
+
         twist_data = Twist()
         if(joy.buttons[5] == 1 and joy.axes[self.acc_idx_] == -1 and joy.axes[self.dec_idx_] == -1):
-            print('7253')
             self.flag_ = True
         if (self.flag_):
             twist_data.angular.z = self.a_scale_ * joy.axes[self.angular_idx_]
@@ -165,7 +198,7 @@ class TeleopWR():
         # rospy.logwarn("Oscar::THE driver velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)\
 
         self.hrs.CalFinalVelocityCmd(twist_data)
-        # rospy.logwarn("Oscar::THE final velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)
+        #rospy.logwarn("Oscar::THE final velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)
 
         twist_data.angular.y = self.hrs.weight_driver_cmd_lon_
         twist_data.angular.x = self.hrs.weight_adas_cmd_lon_

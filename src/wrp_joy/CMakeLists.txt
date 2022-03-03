@@ -10,6 +10,9 @@ find_package(catkin REQUIRED COMPONENTS
   joy
   roscpp
   rospy
+  actionlib
+  move_base_msgs
+  actionlib_tutorials
   human_robot_interaction
   message_filters
 )
@@ -110,6 +113,7 @@ catkin_package(INCLUDE_DIRS include
    roscpp
    rospy
    human_robot_interaction
+   move_base_msgs
 #   DEPENDS system_lib
 )
 
