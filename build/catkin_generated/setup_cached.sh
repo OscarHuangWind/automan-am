@@ -7,4 +7,5 @@
 # new environment variables
 
 # modified environment variables
+export PATH='/opt/ros/noetic/bin:/home/oscar/anaconda3/condabin:/home/oscar/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
 export PWD='/home/oscar/ws_oscar/automan-am/build'

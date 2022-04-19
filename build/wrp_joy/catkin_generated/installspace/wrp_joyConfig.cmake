@@ -185,7 +185,7 @@ foreach(t ${wrp_joy_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "joy;roscpp;rospy;human_robot_interaction")
+set(depends "joy;roscpp;rospy;human_robot_interaction;move_base_msgs;sound_play")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

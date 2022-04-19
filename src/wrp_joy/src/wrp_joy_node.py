@@ -133,6 +133,18 @@ class TeleopWR():
             goal.target_pose.pose.orientation.z = 0.7
             goal.target_pose.pose.orientation.w = 0.1
             client.send_goal(goal)
+        elif (joy.buttons[7] == 1):
+            self.hrs.SetAGVFlagFalse()
+            client = actionlib.SimpleActionClient('RemoteDrive', MoveBaseAction)
+            # client.wait_for_server()
+            goal = MoveBaseGoal()
+            goal.target_pose.header.frame_id = "map"
+            goal.target_pose.header.stamp = rospy.Time.now()
+            goal.target_pose.pose.orientation.x = 0.1
+            goal.target_pose.pose.orientation.y = 0.1
+            goal.target_pose.pose.orientation.z = 0.7
+            goal.target_pose.pose.orientation.w = 0.1
+            client.send_goal(goal)
 
         twist_data = Twist()
         if(joy.buttons[5] == 1 and joy.axes[self.acc_idx_] == -1 and joy.axes[self.dec_idx_] == -1):

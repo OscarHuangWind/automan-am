@@ -18,7 +18,9 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/home/oscar/ws_oscar/automan-am/src/wrp_joy/include/wrp_joy"
+  "/home/oscar/ws_oscar/automan-am/devel/include"
   "/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/include"
+  "/home/oscar/ws_oscar/automan-am/src/audio_common/sound_play/include"
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   )

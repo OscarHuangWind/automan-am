@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"wrp_joy\"
 
-CXX_INCLUDES = -I/home/oscar/ws_oscar/automan-am/src/wrp_joy/include/wrp_joy -I/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/include -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp 
+CXX_INCLUDES = -I/home/oscar/ws_oscar/automan-am/src/wrp_joy/include/wrp_joy -I/home/oscar/ws_oscar/automan-am/devel/include -I/home/oscar/ws_oscar/automan-am/src/human_robot_interaction/include -I/home/oscar/ws_oscar/automan-am/src/audio_common/sound_play/include -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp 
 

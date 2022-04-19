@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib_tutorials
   human_robot_interaction
   message_filters
+  sound_play
 )
 
 ## System dependencies are found with CMake's conventions
@@ -114,6 +115,7 @@ catkin_package(INCLUDE_DIRS include
    rospy
    human_robot_interaction
    move_base_msgs
+   sound_play
 #   DEPENDS system_lib
 )
 
@@ -164,6 +166,7 @@ target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES})
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   src/wrp_joy_node.py
+  src/testing.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

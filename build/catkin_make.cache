@@ -1,2 +1,2 @@
-darknet_ros/darknet_ros:darknet_ros/darknet_ros_msgs:human_robot_interaction:social_distance:ultrasonic_ros:wrp_joy
+audio_common/audio_capture:audio_common/audio_common:audio_common/audio_common_msgs:audio_common/audio_play:audio_common/sound_play:darknet_ros/darknet_ros:darknet_ros/darknet_ros_msgs:human_robot_interaction:multiple-object-tracking-lidar:social_distance:ultrasonic_ros:wrp_joy
 -DCATKIN_WHITELIST_PACKAGES=wrp_joy -DCATKIN_DEVEL_PREFIX=/home/oscar/ws_oscar/automan-am/devel -DCMAKE_INSTALL_PREFIX=/home/oscar/ws_oscar/automan-am/install -G Unix Makefiles
