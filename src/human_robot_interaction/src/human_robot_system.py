@@ -125,13 +125,16 @@ class HRS():
 
         # rospy.logwarn("Oscar::the weight of adas is: %f, %f" %
         #               self.weight_adas_cmd_lon_, self.weight_adas_cmd_rot_)
-
-        vel_cmd.linear.x = (self.weight_adas_cmd_lon_ * max(0.0, self.vel_adas_.linear.x)) +\
-                                (self.weight_driver_cmd_lon_ * vel_cmd.linear.x)
-        vel_cmd.angular.z = (self.weight_adas_cmd_rot_ * self.vel_adas_.angular.z) +\
-                                 (self.weight_driver_cmd_rot_ *
-                                  vel_cmd.angular.z)
-        
+        if (self.agv_flag):
+            vel_cmd.linear.x = (self.weight_adas_cmd_lon_ * self.vel_adas_.linear.x) +\
+                            (self.weight_driver_cmd_lon_ * vel_cmd.linear.x)
+            vel_cmd.angular.z = (self.weight_adas_cmd_rot_ * self.vel_adas_.angular.z) +\
+                            (self.weight_driver_cmd_rot_ * vel_cmd.angular.z)
+        else:
+            vel_cmd.linear.x = (self.weight_adas_cmd_lon_ * max(0.0, self.vel_adas_.linear.x)) +\
+                        (self.weight_driver_cmd_lon_ * vel_cmd.linear.x)
+            vel_cmd.angular.z = (self.weight_adas_cmd_rot_ * self.vel_adas_.angular.z) +\
+                            (self.weight_driver_cmd_rot_ * vel_cmd.angular.z)        
         #rospy.logwarn("Oscar::THE final velocity is: %f, %f", vel_cmd.linear.x, vel_cmd.angular.z)
 
     def GetVelocityCmd(self):

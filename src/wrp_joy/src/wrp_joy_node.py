@@ -34,9 +34,9 @@ l_scale = 0.5
 a_scale = 0.3
 dec_idx = 0
 safe_dist = MAX_RANGE
-ultra_dist_out = 0.0#0.45
-ultra_dist_front = 0.0#0.3
-ultra_dist_inner = 0.0#0.9
+ultra_dist_out = 0.0 #0.45
+ultra_dist_front = 0.0 #0.3
+ultra_dist_inner = 0.5 #0.9
 
 class TeleopWR():
 
