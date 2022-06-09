@@ -137,6 +137,7 @@ gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest.dir/clean
 
 # Recursive "all" directory target.
 wrp_joy/all: wrp_joy/CMakeFiles/wrp_joy_node.dir/all
+wrp_joy/all: wrp_joy/CMakeFiles/joystick_node.dir/all
 
 .PHONY : wrp_joy/all
 
@@ -166,6 +167,7 @@ wrp_joy/clean: wrp_joy/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
 wrp_joy/clean: wrp_joy/CMakeFiles/sensor_msgs_generate_messages_py.dir/clean
 wrp_joy/clean: wrp_joy/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
 wrp_joy/clean: wrp_joy/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
+wrp_joy/clean: wrp_joy/CMakeFiles/joystick_node.dir/clean
 wrp_joy/clean: wrp_joy/CMakeFiles/move_base_msgs_generate_messages_eus.dir/clean
 wrp_joy/clean: wrp_joy/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/clean
 wrp_joy/clean: wrp_joy/CMakeFiles/actionlib_tutorials_generate_messages_py.dir/clean
@@ -667,7 +669,7 @@ wrp_joy/CMakeFiles/move_base_msgs_generate_messages_lisp.dir/clean:
 wrp_joy/CMakeFiles/wrp_joy_node.dir/all:
 	$(MAKE) -f wrp_joy/CMakeFiles/wrp_joy_node.dir/build.make wrp_joy/CMakeFiles/wrp_joy_node.dir/depend
 	$(MAKE) -f wrp_joy/CMakeFiles/wrp_joy_node.dir/build.make wrp_joy/CMakeFiles/wrp_joy_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/oscar/ws_oscar/automan-am/build/CMakeFiles --progress-num=9,10 "Built target wrp_joy_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/oscar/ws_oscar/automan-am/build/CMakeFiles --progress-num=11,12 "Built target wrp_joy_node"
 .PHONY : wrp_joy/CMakeFiles/wrp_joy_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -983,6 +985,33 @@ sensor_msgs_generate_messages_nodejs: wrp_joy/CMakeFiles/sensor_msgs_generate_me
 wrp_joy/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean:
 	$(MAKE) -f wrp_joy/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make wrp_joy/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
 .PHONY : wrp_joy/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target wrp_joy/CMakeFiles/joystick_node.dir
+
+# All Build rule for target.
+wrp_joy/CMakeFiles/joystick_node.dir/all:
+	$(MAKE) -f wrp_joy/CMakeFiles/joystick_node.dir/build.make wrp_joy/CMakeFiles/joystick_node.dir/depend
+	$(MAKE) -f wrp_joy/CMakeFiles/joystick_node.dir/build.make wrp_joy/CMakeFiles/joystick_node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/oscar/ws_oscar/automan-am/build/CMakeFiles --progress-num=9,10 "Built target joystick_node"
+.PHONY : wrp_joy/CMakeFiles/joystick_node.dir/all
+
+# Build rule for subdir invocation for target.
+wrp_joy/CMakeFiles/joystick_node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/oscar/ws_oscar/automan-am/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 wrp_joy/CMakeFiles/joystick_node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/oscar/ws_oscar/automan-am/build/CMakeFiles 0
+.PHONY : wrp_joy/CMakeFiles/joystick_node.dir/rule
+
+# Convenience name for target.
+joystick_node: wrp_joy/CMakeFiles/joystick_node.dir/rule
+
+.PHONY : joystick_node
+
+# clean rule for target.
+wrp_joy/CMakeFiles/joystick_node.dir/clean:
+	$(MAKE) -f wrp_joy/CMakeFiles/joystick_node.dir/build.make wrp_joy/CMakeFiles/joystick_node.dir/clean
+.PHONY : wrp_joy/CMakeFiles/joystick_node.dir/clean
 
 #=============================================================================
 # Target rules for target wrp_joy/CMakeFiles/move_base_msgs_generate_messages_eus.dir

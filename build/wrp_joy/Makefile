@@ -468,6 +468,21 @@ sensor_msgs_generate_messages_nodejs/fast:
 .PHONY : sensor_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
+wrp_joy/CMakeFiles/joystick_node.dir/rule:
+	cd /home/oscar/ws_oscar/automan-am/build && $(MAKE) -f CMakeFiles/Makefile2 wrp_joy/CMakeFiles/joystick_node.dir/rule
+.PHONY : wrp_joy/CMakeFiles/joystick_node.dir/rule
+
+# Convenience name for target.
+joystick_node: wrp_joy/CMakeFiles/joystick_node.dir/rule
+
+.PHONY : joystick_node
+
+# fast build rule for target.
+joystick_node/fast:
+	cd /home/oscar/ws_oscar/automan-am/build && $(MAKE) -f wrp_joy/CMakeFiles/joystick_node.dir/build.make wrp_joy/CMakeFiles/joystick_node.dir/build
+.PHONY : joystick_node/fast
+
+# Convenience name for target.
 wrp_joy/CMakeFiles/move_base_msgs_generate_messages_eus.dir/rule:
 	cd /home/oscar/ws_oscar/automan-am/build && $(MAKE) -f CMakeFiles/Makefile2 wrp_joy/CMakeFiles/move_base_msgs_generate_messages_eus.dir/rule
 .PHONY : wrp_joy/CMakeFiles/move_base_msgs_generate_messages_eus.dir/rule
@@ -932,6 +947,33 @@ actionlib_generate_messages_nodejs/fast:
 	cd /home/oscar/ws_oscar/automan-am/build && $(MAKE) -f wrp_joy/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make wrp_joy/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
 .PHONY : actionlib_generate_messages_nodejs/fast
 
+src/joystick_node.o: src/joystick_node.cpp.o
+
+.PHONY : src/joystick_node.o
+
+# target to build an object file
+src/joystick_node.cpp.o:
+	cd /home/oscar/ws_oscar/automan-am/build && $(MAKE) -f wrp_joy/CMakeFiles/joystick_node.dir/build.make wrp_joy/CMakeFiles/joystick_node.dir/src/joystick_node.cpp.o
+.PHONY : src/joystick_node.cpp.o
+
+src/joystick_node.i: src/joystick_node.cpp.i
+
+.PHONY : src/joystick_node.i
+
+# target to preprocess a source file
+src/joystick_node.cpp.i:
+	cd /home/oscar/ws_oscar/automan-am/build && $(MAKE) -f wrp_joy/CMakeFiles/joystick_node.dir/build.make wrp_joy/CMakeFiles/joystick_node.dir/src/joystick_node.cpp.i
+.PHONY : src/joystick_node.cpp.i
+
+src/joystick_node.s: src/joystick_node.cpp.s
+
+.PHONY : src/joystick_node.s
+
+# target to generate assembly for a file
+src/joystick_node.cpp.s:
+	cd /home/oscar/ws_oscar/automan-am/build && $(MAKE) -f wrp_joy/CMakeFiles/joystick_node.dir/build.make wrp_joy/CMakeFiles/joystick_node.dir/src/joystick_node.cpp.s
+.PHONY : src/joystick_node.cpp.s
+
 src/wrp_joy_node.o: src/wrp_joy_node.cpp.o
 
 .PHONY : src/wrp_joy_node.o
@@ -989,6 +1031,7 @@ help:
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... sensor_msgs_generate_messages_nodejs"
+	@echo "... joystick_node"
 	@echo "... move_base_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... actionlib_tutorials_generate_messages_py"
@@ -1023,6 +1066,9 @@ help:
 	@echo "... actionlib_tutorials_generate_messages_nodejs"
 	@echo "... actionlib_tutorials_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_nodejs"
+	@echo "... src/joystick_node.o"
+	@echo "... src/joystick_node.i"
+	@echo "... src/joystick_node.s"
 	@echo "... src/wrp_joy_node.o"
 	@echo "... src/wrp_joy_node.i"
 	@echo "... src/wrp_joy_node.s"

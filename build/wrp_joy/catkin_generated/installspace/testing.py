@@ -108,7 +108,7 @@ class TeleopWR():
 
     def joyCallback(self, joy):
         
-        if (joy.buttons[19] == 1):
+        if (joy.buttons[10] == 1):
             self.hrs.SetAGVFlagTrue()
             client = actionlib.SimpleActionClient('AGV', MoveBaseAction)
             client.wait_for_server()
@@ -151,7 +151,7 @@ class TeleopWR():
             goal.target_pose.pose.orientation.w = 0.1
             client.send_goal(goal)
 
-        elif (joy.buttons[10]==1):
+        elif (joy.buttons[19]==1):
             self.warning_sound_ = True
             if (self.warning_sound_ == True):
                 self.soundhandle.say(self.s, self.voice, self.volume)

@@ -59,6 +59,7 @@
 /home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/sensor_msgs_generate_messages_py.dir
 /home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/geometry_msgs_generate_messages_py.dir
 /home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir
+/home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/joystick_node.dir
 /home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/move_base_msgs_generate_messages_eus.dir
 /home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/sensor_msgs_generate_messages_lisp.dir
 /home/oscar/ws_oscar/automan-am/build/wrp_joy/CMakeFiles/actionlib_tutorials_generate_messages_py.dir

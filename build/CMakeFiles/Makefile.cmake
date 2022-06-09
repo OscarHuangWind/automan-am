@@ -267,6 +267,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "wrp_joy/CMakeFiles/sensor_msgs_generate_messages_py.dir/DependInfo.cmake"
   "wrp_joy/CMakeFiles/geometry_msgs_generate_messages_py.dir/DependInfo.cmake"
   "wrp_joy/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/DependInfo.cmake"
+  "wrp_joy/CMakeFiles/joystick_node.dir/DependInfo.cmake"
   "wrp_joy/CMakeFiles/move_base_msgs_generate_messages_eus.dir/DependInfo.cmake"
   "wrp_joy/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/DependInfo.cmake"
   "wrp_joy/CMakeFiles/actionlib_tutorials_generate_messages_py.dir/DependInfo.cmake"

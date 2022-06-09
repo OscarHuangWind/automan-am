@@ -545,6 +545,19 @@ sensor_msgs_generate_messages_nodejs/fast:
 .PHONY : sensor_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named joystick_node
+
+# Build rule for target.
+joystick_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 joystick_node
+.PHONY : joystick_node
+
+# fast build rule for target.
+joystick_node/fast:
+	$(MAKE) -f wrp_joy/CMakeFiles/joystick_node.dir/build.make wrp_joy/CMakeFiles/joystick_node.dir/build
+.PHONY : joystick_node/fast
+
+#=============================================================================
 # Target rules for targets named move_base_msgs_generate_messages_eus
 
 # Build rule for target.
@@ -989,6 +1002,7 @@ help:
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... sensor_msgs_generate_messages_nodejs"
+	@echo "... joystick_node"
 	@echo "... move_base_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... actionlib_tutorials_generate_messages_py"

@@ -1,0 +1,13 @@
+ <launch>
+    <!-- joy node -->
+        <node respawn="true" pkg="joy" type="joy_node" name="wr_joy">
+        	<param name="dev" type="string" value="/dev/input/js0" />
+        	<param name="deadzone" value="0.0" />
+        	<param name="autorepeat_rate" value="40"/>
+        </node>
+    
+    <!-- Remote Control Node -->
+        <node pkg ="wrp_joy" type ="joystick_node" name="joystick_controller">
+        </node>
+
+ </launch>
