@@ -85,13 +85,13 @@ class HRS():
                 lat_risk_human = self.vel_adas_.angular.x
                 if (lat_risk_human < 1.0):
                     lat_risk_human = 1.0
-                rospy.logwarn("Oscar::The x:%f, y:%f, risk_human:%f, attention:%f",
-                self.vel_adas_.angular.x, self.vel_adas_.angular.y, lat_risk_human, self.attention_)
+                #rospy.logwarn("Oscar::The x:%f, y:%f, risk_human:%f, attention:%f",
+                #self.vel_adas_.angular.x, self.vel_adas_.angular.y, lat_risk_human, self.attention_)
                 with lock:
                     self.authority.SetInput(lat_risk_human, self.attention_)
                 self.authority.ComputeAuthority()
                 self.weight_driver_cmd_rot_ = self.authority.GetAuthority()
-                rospy.logwarn('%f, %f, %f', lat_risk_human, self.attention_, self.weight_driver_cmd_rot_)
+                #rospy.logwarn('%f, %f, %f', lat_risk_human, self.attention_, self.weight_driver_cmd_rot_)
 
                 if (self.weight_driver_cmd_rot_ < 0.01):
                     self.weight_driver_cmd_rot_ = 0
