@@ -66,8 +66,8 @@ class TeleopWR():
         self.l_scale_ = rospy.get_param('scale_linear', l_scale)
         self.a_scale_ = rospy.get_param('scale_angular', a_scale)
         self.safe_dist_ = rospy.get_param('safe_distance', safe_dist)
-        self.twist_linear_buffer_ = deque(maxlen=5)
-        self.twist_angular_buffer_ = deque(maxlen=5)
+        self.twist_linear_buffer_ = deque(maxlen=2)
+        self.twist_angular_buffer_ = deque(maxlen=2)
 
         self.ats_ = message_filters.ApproximateTimeSynchronizer([self.ultra0_, self.ultra1_, self.ultra2_, self.ultra3_, self.ultra4_, self.ultra5_,self.ultra6_ ,self.ultra7_ ], queue_size=5, slop=0.1)
         self.ats_.registerCallback(self.ultraCallBack)

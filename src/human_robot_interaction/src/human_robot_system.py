@@ -27,7 +27,7 @@ class HRS():
         self.vel_adas_.linear.x = 999
         self.vel_adas_.angular.z = 999
         self.authority = Authority()
-        self.attention_ = 0.0
+        self.attention_ = 1.0
         self.weight_driver_list = deque(maxlen=120)
         self.agv_flag = True
 
@@ -41,7 +41,7 @@ class HRS():
     
     def SetAttention(self, attention):
         if (attention == None):
-            self.attention_ = 0.0
+            self.attention_ = 1.0
         else:
             self.attention_ = attention.data
 
@@ -73,7 +73,7 @@ class HRS():
         else:
             if (self.vel_adas_.linear.z < 10):
                 #### Safe Stop ####
-                # rospy.logwarn('Safe Stop.')
+                #rospy.logwarn('Safe Stop.')
                 self.weight_adas_cmd_lon_ = 1.0
                 self.weight_adas_cmd_rot_ = 0.0
                 self.weight_driver_cmd_lon_ = 1.0 - self.weight_adas_cmd_lon_
