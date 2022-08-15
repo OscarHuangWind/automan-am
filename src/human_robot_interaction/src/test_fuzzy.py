@@ -43,7 +43,7 @@ class Authority():
         self.steering['big'] = fuzz.trimf(self.steering.universe, [0.25, 0.3, 0.35])
         self.steering['very big'] = fuzz.trapmf(self.steering.universe, [0.3, 0.35, 0.45, 0.45])
 
-        self.control_authority['zero'] = fuzz.trapmf(self.control_authority.universe, [0.0, 0.0, 0.0, 0.0])
+        self.control_authority['zero'] = fuzz.trapmf(self.control_authority.universe, [0.0, 0.0, 0.01, 0.01])
         self.control_authority['very low'] = fuzz.trimf(self.control_authority.universe, [0.0, 0.1, 0.2])
         self.control_authority['low'] = fuzz.trimf(self.control_authority.universe, [0.1, 0.25, 0.4])
         self.control_authority['medium'] = fuzz.trimf(self.control_authority.universe, [0.2, 0.4, 0.6])

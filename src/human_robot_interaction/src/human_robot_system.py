@@ -10,7 +10,7 @@ import numpy as np
 import rospy
 import threading
 from collections import deque
-from .control_authority import Authority
+from .control_authority_research import Authority
 from geometry_msgs.msg import Twist
 from statistics import mean
 
@@ -55,7 +55,7 @@ class HRS():
         self.vel_adas_.linear.x = 999
         self.vel_adas_.angular.z = 999
 
-    def CalFinalVelocityCmd(self, vel_cmd_final):
+    def CalFinalVelocityCmd(self, vel_cmd_final, arg):
 
         if ((abs(self.vel_adas_.linear.x) > 100.0) and
                 (abs(self.vel_adas_.angular.z) > 100.0)):
@@ -88,10 +88,23 @@ class HRS():
                 #rospy.logwarn("Oscar::The x:%f, y:%f, risk_human:%f, attention:%f",
                 #self.vel_adas_.angular.x, self.vel_adas_.angular.y, lat_risk_human, self.attention_)
                 with lock:
-                    self.authority.SetInput(lat_risk_human, self.attention_)
+                    if arg == 'attention':
+                        self.authority.SetInput(lat_risk_human, self.attention_)
+                    elif arg == 'steering':
+                        if self.vel_adas_.angular.z > 990:
+                            steering_dev = 0.0
+                        else:
+                            steering_dev = abs(self.vel_adas_.angular.z - vel_cmd_final.angular.z)
+
+                        self.authority.SetInput(lat_risk_human, steering_dev)
+                    else:
+                        self.authority.SetInput(lat_risk_human, self.attention_)
+
                 self.authority.ComputeAuthority()
                 self.weight_driver_cmd_rot_ = self.authority.GetAuthority()
-                #rospy.logwarn('%f, %f, %f', lat_risk_human, self.attention_, self.weight_driver_cmd_rot_)
+                rospy.logwarn('steering driver:%f, steering adas:%f, APf:%f, driver authority:%f', vel_cmd_final.angular.z,
+                              self.vel_adas_.angular.z, lat_risk_human, self.weight_driver_cmd_rot_)
+                # rospy.logwarn('%f, %f, %f', lat_risk_human, self.attention_, self.weight_driver_cmd_rot_)
 
                 if (self.weight_driver_cmd_rot_ < 0.01):
                     self.weight_driver_cmd_rot_ = 0

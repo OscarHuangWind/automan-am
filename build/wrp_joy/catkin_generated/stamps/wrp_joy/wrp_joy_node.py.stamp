@@ -34,9 +34,9 @@ l_scale = 0.5
 a_scale = 0.3
 dec_idx = 0
 safe_dist = MAX_RANGE
-ultra_dist_out = 0.0 #0.45
-ultra_dist_front = 0.0 #0.3
-ultra_dist_inner = 0.5 #0.9
+ultra_dist_out = 0.45 #0.45
+ultra_dist_front = 0.45 #0.3
+ultra_dist_inner = 0.45 #0.9
 
 class TeleopWR():
 
@@ -68,6 +68,7 @@ class TeleopWR():
         self.safe_dist_ = rospy.get_param('safe_distance', safe_dist)
         self.twist_linear_buffer_ = deque(maxlen=5)
         self.twist_angular_buffer_ = deque(maxlen=5)
+        self.args = 'steering'
 
         self.ats_ = message_filters.ApproximateTimeSynchronizer([self.ultra0_, self.ultra1_, self.ultra2_, self.ultra3_, self.ultra4_, self.ultra5_,self.ultra6_ ,self.ultra7_ ], queue_size=5, slop=0.1)
         self.ats_.registerCallback(self.ultraCallBack)
@@ -80,7 +81,7 @@ class TeleopWR():
 
         # suscriber
         self.cmd_adas_sub_ = rospy.Subscriber('/cmd_vel_adas', Twist, self.adas_CB)
-        self.joy_sub_ = rospy.Subscriber('/joy', Joy, self.joyCallback)
+        #self.joy_sub_ = rospy.Subscriber('/joy', Joy, self.joyCallback)
         self.pilot_sub_ = rospy.Subscriber('/joy', Joy, self.joyCallback)
         self.odom_sub_ = rospy.Subscriber('/odom', Odometry, self.odom_CB)
 
@@ -209,7 +210,7 @@ class TeleopWR():
         self.adas_trigger_pub_.publish(twist_data)
         # rospy.logwarn("Oscar::THE driver velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)\
 
-        self.hrs.CalFinalVelocityCmd(twist_data)
+        self.hrs.CalFinalVelocityCmd(twist_data, self.args)
         #rospy.logwarn("Oscar::THE final velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)
 
         twist_data.angular.y = self.hrs.weight_driver_cmd_lon_

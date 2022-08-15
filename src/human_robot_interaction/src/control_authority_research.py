@@ -1,48 +1,111 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Sep  6 14:29:27 2021
+Created on Thu Sep  2 10:26:23 2021
 
 @author: oscar
 """
+import numpy as np
+np.random.BitGenerator = np.random.bit_generator.BitGenerator
+import matplotlib.pyplot as plt
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+# import pandas as pd
 
-# arf = ctrl.Antecedent(np.arange(1.0, 5.0, 0.01), 'arf')
-# steer_dev = ctrl.Antecedent(np.arange(0, 0.5, 0.01), 'steer_dev')
-# control_authority = ctrl.Consequent(np.arange(0.0, 1.0, 0.01), 'control_authority')
+class Authority():
+    
+    def __init__(self):
+        # New Antecedent/Consequent objects hold universe variables and membership
+        self.arf = ctrl.Antecedent(np.arange(1.0, 5.0, 0.01), 'arf')
+        self.steering = ctrl.Antecedent(np.arange(0, 0.45, 0.01), 'steering')
+        self.control_authority = ctrl.Consequent(np.arange(0.0, 1.0, 0.01), 'control_authority')
+        self.rule_list = []
+        self.control_authority_ctrl = ctrl.ControlSystem()
+        self.authority = ctrl.ControlSystemSimulation(self.control_authority_ctrl)
+        self.Initialization()
+        
+    def Initialization(self):
+        # Generate fuzzy membership functions
+        self.arf['low'] = fuzz.trapmf(self.arf.universe, [1.0, 1.0, 1.5, 2.5])
+        self.arf['medium'] = fuzz.trimf(self.arf.universe, [1.5, 2.5, 3.5])
+        self.arf['high'] = fuzz.trapmf(self.arf.universe, [2.5, 3.0, 5.0, 5.0])
+        
+        self.steering['very small'] = fuzz.trapmf(self.steering.universe, [0.0, 0.0, 0.15, 0.2])
+        self.steering['small'] = fuzz.trimf(self.steering.universe, [0.15, 0.2, 0.25])
+        self.steering['medium'] = fuzz.trimf(self.steering.universe, [0.2, 0.25, 0.3])
+        self.steering['big'] = fuzz.trimf(self.steering.universe, [0.25, 0.3, 0.35])
+        self.steering['very big'] = fuzz.trapmf(self.steering.universe, [0.3, 0.35, 0.45, 0.45])
 
-# # Generate fuzzy membership functions
-# arf['small'] = fuzz.trapmf(arf.universe, [1.0, 1.0, 1.5, 2.5])
-# arf['medium'] = fuzz.trimf(arf.universe, [1.5, 2.5, 3.5])
-# arf['large'] = fuzz.trapmf(arf.universe, [2.5, 2.5, 5.0, 5.0])
+        self.control_authority['zero'] = fuzz.trapmf(self.control_authority.universe, [0.0, 0.0, 0.01, 0.01])
+        self.control_authority['very low'] = fuzz.trimf(self.control_authority.universe, [0.0, 0.1, 0.2])
+        self.control_authority['low'] = fuzz.trimf(self.control_authority.universe, [0.1, 0.25, 0.4])
+        self.control_authority['medium'] = fuzz.trimf(self.control_authority.universe, [0.2, 0.4, 0.6])
+        self.control_authority['high'] = fuzz.trimf(self.control_authority.universe, [0.4, 0.6, 0.8])
+        self.control_authority['very high'] = fuzz.trapmf(self.control_authority.universe, [0.7, 0.8, 1.0, 1.0])
+        
+        rule1 = ctrl.Rule(self.arf['low'] & self.steering['very small'], self.control_authority['very high'])
+        rule2 = ctrl.Rule(self.arf['low'] & self.steering['small'], self.control_authority['very high'])
+        rule3 = ctrl.Rule(self.arf['low'] & self.steering['medium'], self.control_authority['high'])
+        rule4 = ctrl.Rule(self.arf['low'] & self.steering['big'], self.control_authority['high'])
+        rule5 = ctrl.Rule(self.arf['low'] & self.steering['very big'], self.control_authority['medium'])
 
-# steer_dev['very small'] = fuzz.trapmf(steer_dev.universe, [0.0, 0.0, 0.075, 0.15])
-# steer_dev['small'] = fuzz.trimf(steer_dev.universe, [0.075, 0.15, 0.25])
-# steer_dev['medium'] = fuzz.trimf(steer_dev.universe, [0.15, 0.25, 0.35])
-# steer_dev['large'] = fuzz.trapmf(steer_dev.universe, [0.25, 0.35, 0.5, 0.5])
+        rule6 = ctrl.Rule(self.arf['medium'] & self.steering['very small'], self.control_authority['high'])
+        rule7 = ctrl.Rule(self.arf['medium'] & self.steering['small'], self.control_authority['high'])
+        rule8 = ctrl.Rule(self.arf['medium'] & self.steering['medium'], self.control_authority['medium'])
+        rule9 = ctrl.Rule(self.arf['medium'] & self.steering['big'], self.control_authority['low'])
+        rule10 = ctrl.Rule(self.arf['medium'] & self.steering['very big'], self.control_authority['very low'])
+        
+        rule11 = ctrl.Rule(self.arf['high'] & self.steering['very small'], self.control_authority['medium'])
+        rule12 = ctrl.Rule(self.arf['high'] & self.steering['small'], self.control_authority['low'])
+        rule13 = ctrl.Rule(self.arf['high'] & self.steering['medium'], self.control_authority['very low'])
+        rule14 = ctrl.Rule(self.arf['high'] & self.steering['big'], self.control_authority['zero'])
+        rule15 = ctrl.Rule(self.arf['high'] & self.steering['very big'], self.control_authority['zero'])
+        
+        self.rule_list = [rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, rule11, rule12, rule13, rule14, rule15]
+        self.control_authority_ctrl = ctrl.ControlSystem(self.rule_list)
+        self.authority = ctrl.ControlSystemSimulation(self.control_authority_ctrl)
 
-# control_authority['low'] = fuzz.trapmf(control_authority.universe, [0.0, 0.0, 0.2, 0.4])
-# control_authority['medium'] = fuzz.trimf(control_authority.universe, [0.2, 0.4, 0.6])
-# control_authority['high'] = fuzz.trimf(control_authority.universe, [0.4, 0.6, 0.8])
-# control_authority['very high'] = fuzz.trapmf(control_authority.universe, [0.7, 0.8, 1.0, 1.0])
+    def SetInput(self, input1, input2):
+        self.authority.input['arf'] = input1
+        self.authority.input['steering'] = input2
 
-# rule1 = ctrl.Rule(arf['small'] & steer_dev['very small'], control_authority['very high'])
-# rule2 = ctrl.Rule(arf['small'] & steer_dev['small'], control_authority['high'])
-# rule3 = ctrl.Rule(arf['small'] & steer_dev['medium'], control_authority['medium'])
-# rule4 = ctrl.Rule(arf['small'] & steer_dev['large'], control_authority['medium'])
+    def ComputeAuthority(self):
+        self.authority.compute()
+        
+    def GetAuthority(self):
+        return self.authority.output['control_authority']
 
-# rule5 = ctrl.Rule(arf['medium'] & steer_dev['very small'], control_authority['high'])
-# rule6 = ctrl.Rule(arf['medium'] & steer_dev['small'], control_authority['medium'])
-# rule7 = ctrl.Rule(arf['medium'] & steer_dev['medium'], control_authority['medium'])
-# rule8 = ctrl.Rule(arf['medium'] & steer_dev['large'], control_authority['low'])
+# author = Authority()
+# author.steering.view()
+# author.arf.view()
+# author.control_authority.view()
+# plt.show()
 
-# rule9 = ctrl.Rule(arf['large'] & steer_dev['very small'], control_authority['medium'])
-# rule10 = ctrl.Rule(arf['large'] & steer_dev['small'], control_authority['low'])
-# rule11 = ctrl.Rule(arf['large'] & steer_dev['medium'], control_authority['low'])
-# rule12 = ctrl.Rule(arf['large'] & steer_dev['large'], control_authority['low'])
+# authority_matrix = np.zeros((9, 10))
 
-# rule_list = [rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, rule11, rule12]
-# control_authorityping_ctrl = ctrl.ControlSystem(rule_list)
-# control_authorityping = ctrl.ControlSystemSimulation(control_authorityping_ctrl)
+# for i in range(0, 9):
+#     for j in range(0, 10):
+#         author.authority.input['arf'] = 1.0 + i * 0.5
+#         author.authority.input['steering'] = 0.0 + j * 0.05
+#         author.authority.compute()
+#         author.control_authoritys_final = author.authority.output['control_authority']
+#         authority_matrix[i][j] = author.control_authoritys_final
 
-# control_authorityping.input['arf'] = 5.0#np.arange(1.0, 5.0, 0.5)#6.5
-# control_authorityping.input['steer_dev'] = 0.5#np.arange(0.0, 0.5, 0.0625)#9.8
+# authority_matrix[authority_matrix < 0.05] = 0
+
+# df = pd.DataFrame({"Deviation:0 rad/s":[x for x in authority_matrix[:,0]],
+#                    "Deviation:0.05 rad/s":[x for x in authority_matrix[:,1]],
+#                    "Deviation:0.1 rad/s":[x for x in authority_matrix[:,2]],
+#                    "Deviation:0.15 rad/s":[x for x in authority_matrix[:,3]],
+#                    "Deviation:0.2 rad/s":[x for x in authority_matrix[:,4]],
+#                    "Deviation:0.25 rad/s":[x for x in authority_matrix[:,5]],
+#                    "Deviation:0.3 rad/s":[x for x in authority_matrix[:,6]],
+#                    "Deviation:0.35 rad/s":[x for x in authority_matrix[:,7]],
+#                    "Deviation:0.4 rad/s":[x for x in authority_matrix[:,8]],
+#                    "Deviation:0.45 rad/s":[x for x in authority_matrix[:,9]],})
+
+# df.index = ['APF=1', 'APF=1.5', 'APF=2', 'APF=2.5', 'APF=3', 'APF=3.5', 'APF=4', 'APF=4.5', 'APF=5']
+# Crunch the numbers
+# author.authority.compute()
+# author.control_authoritys_final = author.authority.output['control_authority']
+# print(author.control_authoritys_final)

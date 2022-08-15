@@ -34,9 +34,9 @@ l_scale = 0.5
 a_scale = 0.3
 dec_idx = 0
 safe_dist = MAX_RANGE
-ultra_dist_out = 0.45 #0.45
-ultra_dist_front = 0.45 #0.3
-ultra_dist_inner = 0.45 #0.9
+ultra_dist_out = 0.0 #0.45
+ultra_dist_front = 0.0 #0.3
+ultra_dist_inner = 0.0 #0.9
 
 class TeleopWR():
 
@@ -57,7 +57,7 @@ class TeleopWR():
         self.ultra7_ = message_filters.Subscriber('/ultrasonic7', Range)
 
         self.threshold_ = rospy.get_param('threshold', threshold)
-        self.vel_limit_ = rospy.get_param('vel_limit', velo_limit)
+        self.vel_limit_ = rospy.get_param('velo_limit', velo_limit)
         self.dec_default_ = rospy.get_param('dec_default', dec_default)
         self.acc_limit_ = rospy.get_param('acc_limit', acc_limit)
         self.acc_idx_ = rospy.get_param('vel_acc', acc_idx)
@@ -78,12 +78,14 @@ class TeleopWR():
         self.adas_trigger_pub_ = rospy.Publisher('/cmd_vel_driver', Twist, queue_size=1)
 
         self.hrs = HRS()
+        self.cmd_vel_ = Twist()
 
         # suscriber
         self.cmd_adas_sub_ = rospy.Subscriber('/cmd_vel_adas', Twist, self.adas_CB)
         #self.joy_sub_ = rospy.Subscriber('/joy', Joy, self.joyCallback)
         self.pilot_sub_ = rospy.Subscriber('/joy', Joy, self.joyCallback)
         self.odom_sub_ = rospy.Subscriber('/odom', Odometry, self.odom_CB)
+        self.cmd_driver_sub_ = rospy.Subscriber('/cmd_vel_driver', Twist, self.driver_CB)
 
         self.attention_states_sub_ = rospy.Subscriber('/attention_states', Float64, self.states_CB)
 
@@ -100,7 +102,12 @@ class TeleopWR():
         # rospy.loginfo("Oscar::Received message from hunter. %f, %f", odom->twist.twist.linear.x, odom->twist.twist.angular.z)
         self.velo_x_ = odom.twist.twist.linear.x
 
-    
+    def driver_CB(self, twist):
+        if self.hrs.vel_adas_.linear.x > 90:
+            self.cmd_vel_.linear.x = twist.linear.x
+            self.cmd_vel_.angular.z = twist.angular.z
+        # else:
+        #     rospy.logwarn("we are here, adas velocity is:%f.", self.hrs.vel_adas_.linear.x)
 
     def joyCallback(self, joy):
         
@@ -134,15 +141,6 @@ class TeleopWR():
             goal.target_pose.pose.orientation.z = 0.7
             goal.target_pose.pose.orientation.w = 0.1
             client.send_goal(goal)
-
-            if self.a_scale_ < 0.4:
-                self.a_scale_ = 0.45
-
-            global ultra_dist_out, ultra_dist_front,  ultra_dist_inner
-            ultra_dist_out = 0.45 #0.45
-            ultra_dist_front = 0.45 #0.3
-            ultra_dist_inner = 0.45 #0.9
-
         elif (joy.buttons[7] == 1):
             self.hrs.SetAGVFlagFalse()
             client = actionlib.SimpleActionClient('RemoteDrive', MoveBaseAction)
@@ -155,85 +153,76 @@ class TeleopWR():
             goal.target_pose.pose.orientation.z = 0.7
             goal.target_pose.pose.orientation.w = 0.1
             client.send_goal(goal)
-            
-            if self.a_scale_ > 0.2:
-                self.a_scale_ = 0.2
 
-            global ultra_dist_out, ultra_dist_front,  ultra_dist_inner
-            ultra_dist_out = 0.0 #0.45
-            ultra_dist_front = 0.0 #0.3
-            ultra_dist_inner = 0.0 #0.9
-
-        twist_data = Twist()
         if(joy.buttons[5] == 1 and joy.axes[self.acc_idx_] == -1 and joy.axes[self.dec_idx_] == -1):
             self.flag_ = True
         if (self.flag_):
-            twist_data.angular.z = self.a_scale_ * joy.axes[self.angular_idx_]
+            self.cmd_vel_.angular.z = self.a_scale_ * joy.axes[self.angular_idx_]
             if (joy.buttons[4] != 1):
 
                 if (joy.axes[self.dec_idx_] > -1):
                     with lock:
                         #rospy.logwarn("The brake velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = ((max(self.velo_x_ - min(self.safe_scale_ * self.l_scale_ * (
+                        self.cmd_vel_.linear.x = ((max(self.velo_x_ - min(self.safe_scale_ * self.l_scale_ * (
                             joy.axes[self.dec_idx_] + 1), self.acc_limit_), 0.0))*self.safe_scale_)
 
                 elif (joy.axes[self.acc_idx_] > self.threshold_):
                     with lock:
                         #rospy.logwarn("The acc velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = ((min(self.velo_x_ + min(self.safe_scale_ * self.l_scale_ * (
+                        self.cmd_vel_.linear.x = ((min(self.velo_x_ + min(self.safe_scale_ * self.l_scale_ * (
                             joy.axes[self.acc_idx_] + 1), self.acc_limit_), self.vel_limit_))*self.safe_scale_)
                 elif (joy.axes[self.acc_idx_] > -1 and joy.axes[self.acc_idx_] <= self.threshold_):
                     with lock:
                         #rospy.logwarn("The maintain velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = ((min(self.velo_x_, self.vel_limit_))*self.safe_scale_)
+                        self.cmd_vel_.linear.x = ((min(self.velo_x_, self.vel_limit_))*self.safe_scale_)
                 else:
                     with lock:
                         #rospy.logwarn("The non-op velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = ((max(self.velo_x_ - min(self.dec_default_, self.acc_limit_), 0.0))*self.safe_scale_)
+                        self.cmd_vel_.linear.x = ((max(self.velo_x_ - min(self.dec_default_, self.acc_limit_), 0.0))*self.safe_scale_)
             else:
                 if (joy.axes[self.dec_idx_] > -1):
                     with lock:
                         #rospy.logwarn("THHHHE brake velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = ((min(self.velo_x_ + min(self.reverse_safe_scale_ * self.l_scale_ * (
+                        self.cmd_vel_.linear.x = ((min(self.velo_x_ + min(self.reverse_safe_scale_ * self.l_scale_ * (
                             joy.axes[self.dec_idx_] + 1), self.acc_limit_), 0.0))*self.reverse_safe_scale_)
 
                 elif (joy.axes[self.acc_idx_] > -1):
                     with lock:
                         #rospy.logwarn("THHHHE acc velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = (max(self.velo_x_ - min(self.reverse_safe_scale_ * self.l_scale_ * (
+                        self.cmd_vel_.linear.x = (max(self.velo_x_ - min(self.reverse_safe_scale_ * self.l_scale_ * (
                             joy.axes[self.acc_idx_] + 1), self.acc_limit_), -self.vel_limit_))*self.reverse_safe_scale_
 
                 else:
                     with lock:
                         #rospy.logwarn("THHHHE non-op velocity is:%f", self.velo_x_)
-                        twist_data.linear.x = (min(self.velo_x_ + min(self.dec_default_, self.acc_limit_), 0.0))*self.reverse_safe_scale_
+                        self.cmd_vel_.linear.x = (min(self.velo_x_ + min(self.dec_default_, self.acc_limit_), 0.0))*self.reverse_safe_scale_
 
-            self.twist_linear_buffer_.append(twist_data.linear.x)
-            self.twist_angular_buffer_.append(twist_data.angular.z)
+            self.twist_linear_buffer_.append(self.cmd_vel_.linear.x)
+            self.twist_angular_buffer_.append(self.cmd_vel_.angular.z)
 
         if (len(self.twist_linear_buffer_) != 0):
-            twist_data.linear.x = mean(self.twist_linear_buffer_)
-            twist_data.angular.z = mean(self.twist_angular_buffer_)
+            self.cmd_vel_.linear.x = mean(self.twist_linear_buffer_)
+            self.cmd_vel_.angular.z = mean(self.twist_angular_buffer_)
 
         # for t in self.twist_buffer_:
         #     cmd_vel_lon_sum += t.linear.x
         #     cmd_vel_rot_sum += t.angular.z
 
-        # twist_data.linear.x = (cmd_vel_lon_sum /
+        # self.cmd_vel_.linear.x = (cmd_vel_lon_sum /
         #                        max((len(self.twist_buffer_)), 1))
-        # twist_data.angular.z = (cmd_vel_rot_sum /
+        # self.cmd_vel_.angular.z = (cmd_vel_rot_sum /
         #                         max((len(self.twist_buffer_)), 1))
 
-        self.adas_trigger_pub_.publish(twist_data)
-        # rospy.logwarn("Oscar::THE driver velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)\
+        # self.adas_trigger_pub_.publish(self.cmd_vel_)
+        # rospy.logwarn("Oscar::THE driver velocity is: %f, %f", self.cmd_vel_.linear.x, self.cmd_vel_.angular.z)\
 
-        self.hrs.CalFinalVelocityCmd(twist_data, self.args)
-        #rospy.logwarn("Oscar::THE final velocity is: %f, %f", twist_data.linear.x, twist_data.angular.z)
+        self.hrs.CalFinalVelocityCmd(self.cmd_vel_, self.args)
+        #rospy.logwarn("Oscar::THE final velocity is: %f, %f", self.cmd_vel_.linear.x, self.cmd_vel_.angular.z)
 
-        twist_data.angular.y = self.hrs.weight_driver_cmd_lon_
-        twist_data.angular.x = self.hrs.weight_adas_cmd_lon_
+        self.cmd_vel_.angular.y = self.hrs.weight_driver_cmd_lon_
+        self.cmd_vel_.angular.x = self.hrs.weight_adas_cmd_lon_
 
-        self.wr_pub_.publish(twist_data)
+        self.wr_pub_.publish(self.cmd_vel_)
 
     def ultraCallBack(self, ultra0, ultra1, ultra2, ultra3,ultra4,ultra5,ultra6,ultra7):
         self.safe_scale_ = 1
